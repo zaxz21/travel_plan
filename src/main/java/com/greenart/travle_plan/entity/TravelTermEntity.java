@@ -29,7 +29,7 @@ public class TravelTermEntity {
     @Column(name="tt_seq")        private Long tsSeq;
     @Column(name="tt_start_date") private Date tsDate;
     @Column(name="tt_end_date")   private Date tsTtSeq;
-    @Column(name="tt-mi_seq")     private Long tsTpSeq;
+    @Column(name="tt_mi_seq")     private Long tsTpSeq;
 }
 
 
