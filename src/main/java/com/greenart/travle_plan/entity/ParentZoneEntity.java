@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "parant_zone")
+@Table(name = "parent_zone")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ParentZoneEntity {

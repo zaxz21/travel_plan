@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class TravelPlaceEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tp_seq") private Long tpSeq;
+    @Column(name = "tp_name") private String tpName;
     @Column(name = "tp_adress") private String tpAdress;
     @Column(name = "tp_latitude") private Double tpLatitude;
     @Column(name = "tp_longitude") private Double tpLongitude;
