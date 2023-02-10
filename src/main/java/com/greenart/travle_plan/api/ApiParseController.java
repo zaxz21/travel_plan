@@ -85,7 +85,7 @@ public class ApiParseController {
                         .tpLatitude(temp.get("mapx").getAsDouble())
                         .tpLongitude(temp.get("mapy").getAsDouble())
                         .tpImage(temp.get("firstimage").getAsString())
-                        .tpType(temp.get("cat1")) == "A01" ? ""
+                        .tpType(temp.get("cat1") == "A02" ? 1 : temp.get("cat1") == "B02"? 2 : temp.get("cat1") == "A05"? 3 : null)
                         .load(temp.get("addr1") == null? "-":temp.get("addr1").getAsString())
                         .zipcode(temp.get("addr1") == null? "-":temp.get("addr1").getAsString().split(" ")[temp.get("addr1").getAsString().split(" ").length - 1])
                         .cityObj(travelPlaceEntity)
