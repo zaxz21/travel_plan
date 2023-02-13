@@ -1,6 +1,7 @@
 package com.greenart.travel_plan.entity;
 
-
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "member_info")
 @Entity
 @Builder
+@DynamicInsert
 public class MemberInfoEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mi_seq") private Long miSeq;
@@ -26,7 +28,7 @@ public class MemberInfoEntity {
     @Column(name = "mi_pwd") private String miPwd;
     @Column(name = "mi_phone") private String miPhone;
     @Column(name = "mi_nickname") private String miNickname;
-    @Column(name = "mi_status") private Integer miStatus;
+    @Column(name = "mi_status")  @ColumnDefault("0") private Integer miStatus;
     @Column(name = "mi_kakao") private String miKakao;
     @Column(name = "mi_google") private String miGoogle;
     @Column(name = "mi_name") private String miName;
