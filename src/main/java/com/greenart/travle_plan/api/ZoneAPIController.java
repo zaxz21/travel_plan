@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.greenart.travle_plan.entity.ZoneConnectionEntity;
@@ -28,13 +29,15 @@ public class ZoneAPIController {
     @Autowired CategoryService cateService;
 
     // 카테 조회
-    @GetMapping("/cate")
+    @GetMapping("/allcate")
     public List<ZoneConnectionEntity> selectCategories(){
         List<ZoneConnectionEntity> resultMap = zcRepo.findAll();
         return resultMap;
     }
-    @GetMapping("/cate/{seq}")
-    public ResponseEntity<Object> getIngredient(@PathVariable Long seq){
+    
+    @GetMapping("/cate")
+    // public ResponseEntity<Object> getIngredient(@PathVariable Long seq){
+    public ResponseEntity<Object> showCategory(@RequestParam Long seq){
         Map<String, Object> resultMap = cateService.showCategory(seq);
         return new ResponseEntity<Object>(resultMap ,HttpStatus.OK);
     }

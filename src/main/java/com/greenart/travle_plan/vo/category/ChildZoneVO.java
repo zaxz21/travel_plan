@@ -1,8 +1,20 @@
 package com.greenart.travle_plan.vo.category;
 
-public interface ChildZoneVO {
-    Long getSeq();
-    String getName();
-    String getExplanation();
-    String getUri();
+import com.greenart.travle_plan.entity.ZoneConnectionEntity;
+
+import lombok.Data;
+
+@Data
+public class ChildZoneVO {
+    private Long seq;
+    private String name;
+    private String explanation;
+    private String uri;
+
+    public ChildZoneVO(ZoneConnectionEntity entity){
+        this.seq = entity.getChild().getSeq();
+        this.name = entity.getChild().getName();
+        this.explanation = entity.getChild().getExplanation();
+        this.uri = entity.getChild().getIiSeq();
+    }
 }
