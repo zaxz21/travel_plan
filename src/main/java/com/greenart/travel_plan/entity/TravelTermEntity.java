@@ -1,7 +1,6 @@
 package com.greenart.travel_plan.entity;
 
-import java.lang.annotation.Inherited;
-import java.time.LocalDateTime;
+
 import java.util.Date;
 
 import org.hibernate.annotations.DynamicInsert;
