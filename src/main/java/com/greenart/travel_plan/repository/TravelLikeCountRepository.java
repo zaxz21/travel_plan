@@ -7,4 +7,5 @@ import com.greenart.travel_plan.entity.TravelLikeCountEntity;
 public interface TravelLikeCountRepository extends JpaRepository <TravelLikeCountEntity,Long> {
     public TravelLikeCountEntity findByTpSeq(Long tpseq);
     
+    
 }

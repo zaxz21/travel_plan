@@ -1,6 +1,9 @@
 package com.greenart.travel_plan.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.data.annotation.Immutable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,21 +11,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "img_info")
+@Table(name = "travel_like_member")
+@Immutable
 @Entity
-@Builder
-public class ImgInfoEntity {
+public class TravelLikeMemberEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema (description = "이미지 번호" , example = "1")
-    @Column(name = "ii_seq") private Long iiSeq;
-    @Schema(description = "이미지 파일 이름")
-    @Column(name = "ii_file_name") private String iiFileName;
-    
+    @Column(name = "tl_seq") @JsonIgnore private Long tlSeq;
+    @Column(name = "mi_seq") private Long miSeq;
+    @Column(name = "tp_seq") private Long tpSeq;
+    @Column(name = "tp_name") private String tpName;
 }
