@@ -1,4 +1,4 @@
-package com.greenart.travle_plan;
+package com.greenart.travel_plan;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

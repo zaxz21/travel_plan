@@ -1,8 +1,8 @@
-package com.greenart.travle_plan.repository;
+package com.greenart.travel_plan.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.greenart.travle_plan.entity.ImgInfoEntity;
+import com.greenart.travel_plan.entity.ImgInfoEntity;
 
 public interface ImgInfoRepository extends JpaRepository <ImgInfoEntity, Long> {
     

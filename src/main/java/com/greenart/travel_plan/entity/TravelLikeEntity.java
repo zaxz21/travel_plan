@@ -1,6 +1,5 @@
-package com.greenart.travle_plan.entity;
+package com.greenart.travel_plan.entity;
 
-import java.lang.annotation.Inherited;
 
 import org.hibernate.annotations.DynamicInsert;
 

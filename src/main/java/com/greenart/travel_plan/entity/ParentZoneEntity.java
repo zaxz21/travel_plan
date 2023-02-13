@@ -1,4 +1,6 @@
-package com.greenart.travle_plan.entity;
+package com.greenart.travel_plan.entity;
+
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,12 +13,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "zone_connection")
+@Table(name = "parant_zone")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ZoneConnectionEntity {
+public class ParentZoneEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "zc_seq") private Long seq;
-    @Column(name = "zc_pz_seq") private String pzSeq;
-    @Column(name = "zc_cz_seq") private String czSeq;
+    @Column(name = "pz_seq") private Long seq;
+    @Column(name = "pz_name") private String name;
 }

@@ -1,8 +1,6 @@
-package com.greenart.travle_plan.entity;
+package com.greenart.travel_plan.entity;
 
 
-import java.lang.annotation.Inherited;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -24,13 +22,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @DynamicInsert
-@Table(name="travel_schedule")
-public class TravelScheduleEntity {
+@Table(name="travel_term")
+public class TravelTermEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ts_seq")      private Long          tsSeq;
-    @Column(name="ts_date")     private LocalDateTime tsDate;
-    @Column(name="ts_tt_seq")   private Long          tsTtSeq;
-    @Column(name="ts_tp_seq")   private Long          tsTpSeq;
+    @Column(name="tt_seq")        private Long tsSeq;
+    @Column(name="tt_start_date") private Date tsDate;
+    @Column(name="tt_end_date")   private Date tsTtSeq;
+    @Column(name="tt_mi_seq")     private Long tsTpSeq;
 }
 
 

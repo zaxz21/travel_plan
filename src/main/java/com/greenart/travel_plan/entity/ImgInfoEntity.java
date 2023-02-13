@@ -1,4 +1,4 @@
-package com.greenart.travle_plan.entity;
+package com.greenart.travel_plan.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
