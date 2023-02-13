@@ -1,13 +1,16 @@
 package com.greenart.travle_plan.service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.greenart.travle_plan.entity.TravelLikeEntity;
+import com.greenart.travle_plan.entity.TravelLikeMemberEntity;
 import com.greenart.travle_plan.repository.TravelLikeCountRepository;
+import com.greenart.travle_plan.repository.TravelLikeMemberRepository;
 import com.greenart.travle_plan.repository.TravelLikeRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,10 +20,11 @@ import lombok.RequiredArgsConstructor;
 public class TravelLikeService {
     private final TravelLikeRepository travelLikeRepository;
     private final TravelLikeCountRepository  travelLikeCountRepository;
+    private final TravelLikeMemberRepository travelLikeMemberRepository;
        public Map<String, Object> placeLike(Long tpseq,Long miseq ){
         Map <String,Object> resultMap = new LinkedHashMap<String, Object>();
-        TravelLikeEntity entity = new TravelLikeEntity(null,tpseq,miseq);
-        travelLikeRepository.save(entity);
+        // TravelLikeEntity entity = new TravelLikeEntity(null,tpseq,miseq);
+        // travelLikeRepository.save(entity);
         resultMap.put("status", true);
         resultMap.put("message", "좋습니다.");
         resultMap.put("code",HttpStatus.OK);
@@ -32,7 +36,8 @@ public class TravelLikeService {
         resultMap.put("status", true);
        resultMap.put("message","조회에 성공했습니다.");
        resultMap.put("result", travelLikeCountRepository.findAll() );
-       }else{
+       }
+       else{
        resultMap.put("status", true);
        resultMap.put("message","조회에 성공했습니다.");
        resultMap.put("result", travelLikeCountRepository.findByTpSeq(tpseq) );
@@ -40,5 +45,13 @@ public class TravelLikeService {
        return resultMap;
 
      }
+     public List<TravelLikeMemberEntity> getTravelMember (Long miseq) {
+      List<TravelLikeMemberEntity> list =  travelLikeMemberRepository.findByMiSeq(miseq);
+      
+      return list;
+     }
+
+    
+
     
 }

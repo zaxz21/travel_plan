@@ -3,6 +3,7 @@ package com.greenart.travle_plan.entity;
 
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,7 +22,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ParentZoneEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "상위지역 번호" , example = "1")
     @Column(name = "pz_seq") private Long pzSeq;
+    @Schema(description = "상위지역 이름" , example = "서울")
     @Column(name = "pz_name") private String name;
     // @OneToOne(mappedBy = "zc_seq")
     // private Long zcSeq;

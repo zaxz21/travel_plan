@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberInfoService {
     private final  MemberInfoRepository memberInfoRepository;
-    private final  TravelLikeRepository travelLikeRepository;
      public Map<String, Object> addMember(MemberAddVo data) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
 
