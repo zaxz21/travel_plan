@@ -1,4 +1,4 @@
-package com.greenart.travle_plan.utils;
+package com.greenart.travel_plan.utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

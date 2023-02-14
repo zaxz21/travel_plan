@@ -12,9 +12,9 @@ import com.greenart.travel_plan.entity.MemberInfoEntity;
 import com.greenart.travel_plan.entity.TravelLikeEntity;
 import com.greenart.travel_plan.repository.MemberInfoRepository;
 import com.greenart.travel_plan.repository.TravelLikeRepository;
-import com.greenart.travel_plan.vo.MemberAddVo;
-import com.greenart.travel_plan.vo.MemberInfoVO;
-import com.greenart.travel_plan.vo.MemberLoginVO;
+import com.greenart.travel_plan.vo.member.MemberAddVo;
+import com.greenart.travel_plan.vo.member.MemberInfoVO;
+import com.greenart.travel_plan.vo.member.MemberLoginVO;
 
 import lombok.RequiredArgsConstructor;
 @Service
