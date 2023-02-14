@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.greenart.travel_plan.entity.ParentZoneEntity;
@@ -26,6 +27,9 @@ public class CategoryService {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         ParentZoneEntity parent = pzRepo.findById(seq).orElse(null);
         if(parent==null){
+            resultMap.put("status", false);
+            resultMap.put("message", "결과가 존재하지않습니다");
+            resultMap.put("code", HttpStatus.NOT_FOUND);
             return resultMap;
         }
         List<ZoneConnectionEntity> cate = zcRepo.findByParent(parent);
@@ -36,7 +40,10 @@ public class CategoryService {
             pvo.setChild(childVO);
             result.add(pvo);
         }
+        resultMap.put("status", true);
         resultMap.put("data", result);
+        resultMap.put("message", "조회하였습니다.");
+        resultMap.put("code", HttpStatus.ACCEPTED);
         return resultMap;
 
 
