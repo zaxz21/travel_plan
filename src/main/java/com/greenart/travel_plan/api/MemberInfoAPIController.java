@@ -23,8 +23,8 @@ import com.greenart.travel_plan.entity.MemberInfoEntity;
 import com.greenart.travel_plan.entity.ZoneConnectionEntity;
 import com.greenart.travel_plan.repository.ZoneConnectionRepository;
 import com.greenart.travel_plan.service.MemberInfoService;
-import com.greenart.travel_plan.vo.MemberAddVo;
-import com.greenart.travel_plan.vo.MemberLoginVO;
+import com.greenart.travel_plan.vo.member.MemberAddVo;
+import com.greenart.travel_plan.vo.member.MemberLoginVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
