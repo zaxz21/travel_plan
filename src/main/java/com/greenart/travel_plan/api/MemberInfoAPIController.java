@@ -58,15 +58,15 @@ public class MemberInfoAPIController {
   @Operation(summary = "로그인 한 회원정보 출력")
   @GetMapping(value = "/list") //회원정보 출력
   public ResponseEntity<Object> getMemberList(
-  @Parameter(description = "로그인한 회원의 miseq를 받아서 해당 회원의 정보 출력")  
-  @RequestParam Long miseq){
+  @Parameter(name= "miseq", description = "로그인한 회원의 miseq를 받아서 해당 회원의 정보 출력")  
+   @RequestParam Long miseq){
     MemberInfoEntity member = memberInfoService.getMemberInfo(miseq);
      return new ResponseEntity<Object>(member, HttpStatus.OK);
   }
   @Operation(summary = "로그인 한 회원삭제")
   @DeleteMapping(value = "/delete") // 회원삭제
   public ResponseEntity<Object> deleteMember(
-  @Parameter(description = "로그인한 회원의 miseq를 받아서 해당 회원의 정보 삭제")    
+  @Parameter(name= "miseq" ,description = "로그인한 회원의 miseq를 받아서 해당 회원의 정보 삭제")    
   @RequestParam Long miseq){
     Map<String, Object> resultMap = memberInfoService.deleteMember(miseq);
      return new ResponseEntity<Object>(resultMap, HttpStatus.OK);

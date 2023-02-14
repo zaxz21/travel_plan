@@ -81,8 +81,8 @@ public class MemberInfoService {
     }
     return map;
     }
-        public MemberInfoEntity getMemberInfo (Long miSeq){
-        return memberInfoRepository.findByMiSeq(miSeq);
+        public MemberInfoEntity getMemberInfo (Long miseq){
+        return memberInfoRepository.findByMiSeq(miseq);
     }
 
     public Map<String, Object> deleteMember (Long miseq) {
