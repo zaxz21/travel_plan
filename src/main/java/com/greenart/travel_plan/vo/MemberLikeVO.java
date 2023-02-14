@@ -1,6 +1,6 @@
-package com.greenart.travle_plan.vo;
+package com.greenart.travel_plan.vo;
 
-import com.greenart.travle_plan.entity.TravelLikeEntity;
+import com.greenart.travel_plan.entity.TravelLikeEntity;
 
 import lombok.Data;
 

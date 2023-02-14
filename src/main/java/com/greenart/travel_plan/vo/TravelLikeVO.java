@@ -1,4 +1,4 @@
-package com.greenart.travle_plan.vo;
+package com.greenart.travel_plan.vo;
 
 import lombok.Data;
 
