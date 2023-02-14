@@ -1,5 +1,4 @@
 package com.greenart.travel_plan.entity;
-package com.greenart.travel_plan.entity;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
