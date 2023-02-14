@@ -1,4 +1,4 @@
-package com.greenart.travle_plan;
+package com.greenart.travel_plan;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
-class TravlePlanApplicationTests {
+class TravelPlanApplicationTests {
 @Autowired ZoneConnectionRepository zoneConnectionRepository;
 	@Test
 	void getZone(){

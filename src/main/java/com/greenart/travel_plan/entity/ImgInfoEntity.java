@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ImgInfoEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ii_seq") private Long iiSeq;
+    @Column(name = "ii_seq")       private Long   iiSeq;
     @Column(name = "ii_file_name") private String iiFileName;
     
 }
