@@ -1,15 +1,15 @@
-package com.greenart.travel_plan.api;
+// package com.greenart.travel_plan.api;
 
 // import java.io.BufferedReader;
 // import java.io.InputStreamReader;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.greenart.travel_plan.entity.TravelPlaceEntity;
-import com.greenart.travel_plan.repository.TravelPlaceRepository;
-import com.greenart.travel_plan.vo.TravelPlaceVO;
+// import com.google.gson.JsonArray;
+// import com.google.gson.JsonElement;
+// import com.google.gson.JsonObject;
+// import com.google.gson.JsonParser;
+// import com.greenart.travel_plan.entity.TravelPlaceEntity;
+// import com.greenart.travel_plan.repository.TravelPlaceRepository;
+// import com.greenart.travel_plan.vo.TravelPlaceVO;
 
 // import lombok.RequiredArgsConstructor;
 // import org.springframework.transaction.annotation.Transactional;

@@ -17,22 +17,22 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@Tag(name = "일정")
-@RestController
-@RequestMapping("/api/schedule")
-@RequiredArgsConstructor
-public class TravelScheduleAPIController {
-    private final TravelScheduleService tsService;
-
-    @Operation(summary = "일정 불러오기")
-    @ApiResponse(responseCode = "200" , description = "일정추가")
-    @ApiResponse(responseCode = "403" , description = "로그인 되지 않은 유저가 접근시")
-    @GetMapping("")
-    public ResponseEntity<TravelScheduleEntity<List<TravelScheduleVO>>> getScheduleInfo() {
-        return new ResponseEntity<>(
-                new CartinfoResponseBody<>(true, null, tsService.getScheduleInfo(userSeq)), 
-                HttpStatus.OK
-            );
-    }
-
-}
+// @Tag(name = "일정")
+// @RestController
+// @RequestMapping("/api/schedule")
+// @RequiredArgsConstructor
+// public class TravelScheduleAPIController {
+//     private final TravelScheduleService tsService;
+// 
+//     @Operation(summary = "일정 불러오기")
+//     @ApiResponse(responseCode = "200" , description = "일정추가")
+//     @ApiResponse(responseCode = "403" , description = "로그인 되지 않은 유저가 접근시")
+//     @GetMapping("")
+//     public ResponseEntity<TravelScheduleEntity<List<TravelScheduleVO>>> getScheduleInfo() {
+//         return new ResponseEntity<>(
+//                 new CartinfoResponseBody<>(true, null, tsService.getScheduleInfo(userSeq)), 
+//                 HttpStatus.OK
+//             );
+//     }
+// 
+// }
