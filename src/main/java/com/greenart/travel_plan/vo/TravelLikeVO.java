@@ -1,5 +1,7 @@
 package com.greenart.travel_plan.vo;
 
+import com.greenart.travel_plan.vo.member.MemberLikeVO;
+
 import lombok.Data;
 
 @Data
