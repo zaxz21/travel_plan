@@ -25,7 +25,7 @@ import jakarta.transaction.Transactional;
 public class ImgService {
     
     @Autowired ImgInfoRepository ImgRepo;
-    @Autowired ImgService ImgServce;
+    // @Autowired ImgService ImgServce;
     @Value("${file.image.local}") String local_img_path;
     
     // 이미지 업로드
@@ -66,8 +66,8 @@ public class ImgService {
     public Map<String, Object> downLocalImage (String imgname, MultipartFile file) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         Path forderLocation = null;
-        folderLocation = Paths.get(local_img_path);
-        filename = 
+        forderLocation = Paths.get(local_img_path);
+        // filename = 
 
         return resultMap;
     }

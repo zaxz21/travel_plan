@@ -1,5 +1,6 @@
 package com.greenart.travel_plan.vo;
 
+import com.greenart.travel_plan.entity.TravelLikeEntity;
 import com.greenart.travel_plan.vo.member.MemberLikeVO;
 
 import lombok.Data;
@@ -11,4 +12,7 @@ public class TravelLikeVO {
     private MemberLikeVO member;
 
     
+    public TravelLikeVO (TravelLikeEntity entity) {
+        this.tlSeq = entity.getTlSeq();
+    }
 }
