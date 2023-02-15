@@ -9,28 +9,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.greenart.travel_plan.entity.ChildZoneEntity;
 import com.greenart.travel_plan.entity.ParentZoneEntity;
 import com.greenart.travel_plan.entity.ZoneConnectionEntity;
 import com.greenart.travel_plan.repository.ChildZoneRepository;
 import com.greenart.travel_plan.repository.ParentZoneRepository;
 import com.greenart.travel_plan.repository.ZoneConnectionRepository;
+import com.greenart.travel_plan.vo.category.AddZoneVO;
+import com.greenart.travel_plan.vo.category.AllCateResponseVO;
+import com.greenart.travel_plan.vo.category.CateResponseVO;
 import com.greenart.travel_plan.vo.category.ChildZoneVO;
 import com.greenart.travel_plan.vo.category.ParentZoneVO;
 
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class CategoryService {
     @Autowired ChildZoneRepository czRepo;
     @Autowired ParentZoneRepository pzRepo;
     @Autowired ZoneConnectionRepository zcRepo;
 
-    public Map<String, Object> showCategory(Long seq){
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+    public AllCateResponseVO showAllCate(AllCateResponseVO data){
+        AllCateResponseVO aVo = AllCateResponseVO.builder()
+            .status(true)
+            .message("모든 지역을 조회했습니다.")
+            .code(HttpStatus.ACCEPTED)
+            .list(zcRepo.findAll())
+            .build();
+            return aVo;
+    }
+
+    public CateResponseVO showCategory(Long seq){
+    // public Map<String, Object> showCategory(Long seq){
+        // Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         ParentZoneEntity parent = pzRepo.findById(seq).orElse(null);
         if(parent==null){
-            resultMap.put("status", false);
-            resultMap.put("message", "결과가 존재하지않습니다");
-            resultMap.put("code", HttpStatus.NOT_FOUND);
-            return resultMap;
+            CateResponseVO cVo = CateResponseVO.builder()
+            .status(false)
+            .message("결과가 존재하지않습니다.")
+            .code(HttpStatus.NOT_FOUND)
+            .build();
+            return cVo;
         }
         List<ZoneConnectionEntity> cate = zcRepo.findByParent(parent);
         List<ParentZoneVO> result = new ArrayList<>();
@@ -40,64 +62,37 @@ public class CategoryService {
             pvo.setChild(childVO);
             result.add(pvo);
         }
-        resultMap.put("status", true);
-        resultMap.put("data", result);
-        resultMap.put("message", "조회하였습니다.");
-        resultMap.put("code", HttpStatus.ACCEPTED);
-        return resultMap;
-
-
-
-
-
-        // ZoneConnectionEntity cate = zcRepo.findBySeq(seq);
-        // ParentZoneEntity cate = zcRepo.findBySeq(seq);
-        // List<ZoneConnectionEntity> cate = zcRepo.findBySeq(seq);
-        // ZoneConnectionEntity parent = zcRepo.findByCate(seq);
-        // ZoneConnectionEntity parent = zcRepo.findBySeq(seq);
-        // if (seq == null){
-        //     resultMap.put("list", pzRepo.findAll());
-        //     return resultMap;
-        // }
-        // else if(seq==1) {
-        //     resultMap.put("list", pzRepo.findAllByPzSeq(seq));
-        // }
-        // Map<String, Object> list = new LinkedHashMap<>();
-        // if(pzSeq==1){
-        //     List<ParentZoneVO> parentList = pzRepo.
-        //     if(parentList.size()!=0){
-        //         list.put("burger", parentList);
-        //     }
-
-
-        // else if(seq==1){
-        //     resultMap.put("seq", seq);
-        //     resultMap.put("list", pzRepo.findAllByPzSeq(seq));
-        //     return resultMap;
-        // }
-
-        // else if(seq==2){
-        //     resultMap.put("seq", cate);
-        //     resultMap.put("list", zcRepo.findBySeq(1L));
-        // }
-        // else if(seq==3){
-        //     resultMap.put("seq", cate);
-        //     resultMap.put("list", zcRepo.findBySeq(1L));
-        // }
-        // else if(seq==4){
-        //     resultMap.put("seq", cate);
-        //     resultMap.put("list", zcRepo.findBySeq(1L));
-        // }
-        // else if(seq==5){
-        //     resultMap.put("seq", cate);
-        //     resultMap.put("list", zcRepo.findBySeq(1L));
-        // }
-        // else if(seq==6){
-        //     resultMap.put("seq", cate);
-        //     resultMap.put("list", zcRepo.findBySeq(1L));
-        // }
-            
-        
-        // Map<String, Object> list = new LinkedHashMap<>();
+        CateResponseVO cVo = CateResponseVO.builder()
+            .status(true)
+            .message("조회하였습니다.")
+            .code(HttpStatus.ACCEPTED)
+            .list(result)
+            .build();
+            return cVo;
+    }
+    public AddZoneVO addCategory(AddZoneVO data){
+    // public Map<String, Object> addCategory(AddZoneVO data){
+    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        ParentZoneEntity entity = ParentZoneEntity.builder()
+        .name(data.getPzName())
+        .build();
+        pzRepo.save(entity);
+        ChildZoneEntity cEntity = ChildZoneEntity.builder()
+        .name(data.getCzName())
+        .explanation(data.getCzExplanation())
+        // .image(data.getImage())
+        .build();
+        czRepo.save(cEntity);
+        ZoneConnectionEntity zEntity = new ZoneConnectionEntity(null,entity,cEntity);
+        zcRepo.save(zEntity);
+        AddZoneVO aVo = AddZoneVO.builder()
+        .status(true)
+        .message("추가하였습니다.")
+        .code(HttpStatus.ACCEPTED)
+        // .pzName(data.getPzName())
+        // .czName(data.getCzName())
+        // .czExplanation(data.getCzExplanation())
+        .build();
+        return aVo;
     }
 }

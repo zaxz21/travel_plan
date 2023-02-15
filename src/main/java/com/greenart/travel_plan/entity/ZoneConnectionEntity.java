@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -35,10 +36,10 @@ public class ZoneConnectionEntity {
     @Schema  (description = "지역 연결 테이블 번호" ,example = "1" )
     @Column(name = "zc_seq") private Long seq;
     @Schema  (description = "상위 지역 번호" ,example = "1" )
-    @ManyToOne @JoinColumn(name = "zc_pz_seq" )  ParentZoneEntity parent;
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "zc_pz_seq" )  ParentZoneEntity parent;
     // @Column(name = "zc_pz_seq") private Long pzSeq;
     @Schema  (description = "하위 지역 번호" ,example = "1" )
-    @ManyToOne @JoinColumn(name = "zc_cz_seq" )  ChildZoneEntity child;
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "zc_cz_seq" )  ChildZoneEntity child;
     // @Column(name = "zc_cz_seq") private Long czSeq;
     
 }

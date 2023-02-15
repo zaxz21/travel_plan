@@ -25,7 +25,7 @@ import jakarta.transaction.Transactional;
 public class ImgService {
     
     @Autowired ImgInfoRepository ImgRepo;
-    @Autowired ImgService ImgServce;
+    // @Autowired ImgService ImgServce;
     @Value("${file.image.local}") String local_img_path;
     
     // 이미지 업로드
