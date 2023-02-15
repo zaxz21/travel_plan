@@ -9,12 +9,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "child_zone")
 @Getter
@@ -28,7 +33,8 @@ public class ChildZoneEntity {
     @Schema(description = "여행지역 설명")
     @Column(name = "cz_explanation") private String explanation;
     @Schema(description = "이미지 번호" )
-    @Column(name = "cz_ii_seq") private String iiSeq;
+    @OneToOne @JoinColumn(name = "cz_ii_seq") ImgInfoEntity image;
+    // @Column(name = "cz_ii_seq") private Long iiSeq;
     // @OneToOne(mappedBy = "zc_seq")
     // private Long zcSeq;
 }

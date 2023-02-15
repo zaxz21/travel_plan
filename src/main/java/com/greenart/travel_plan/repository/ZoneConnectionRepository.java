@@ -11,14 +11,5 @@ import com.greenart.travel_plan.vo.category.ParentZoneVO;
 
 public interface ZoneConnectionRepository extends JpaRepository<ZoneConnectionEntity, Long>{
     List<ZoneConnectionEntity> findByParent(ParentZoneEntity seq);
-    // List<ZoneConnectionEntity> findByParent(ParentZoneEntity parent);
-
-
-
-    // ZoneConnectionEntity findBySeq(Long seq);
-    // ParentZoneEntity findBySeq(Long seq);
-    // List<ZoneConnectionEntity> findByCate(ParentZoneEntity parent);
-    // List<ParentZoneEntity> findByZone(ZoneConnectionEntity zone);
-    // ParentZoneEntity findAllByParentSeq(Long seq);
-    // List<ParentZoneEntity> findByAllPzSeq(Long pzSeq);
+    // public Integer countByParent(ParentZoneEntity seq);
 }

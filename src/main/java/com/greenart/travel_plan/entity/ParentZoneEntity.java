@@ -18,8 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "parent_zone")
 @Getter
