@@ -1,7 +1,9 @@
 package com.greenart.travel_plan.entity;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.DynamicInsert;
 
@@ -11,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +37,9 @@ public class TravelTermEntity {
     @Column(name="tt_end_date")   private Date ttEndDate;
     @Schema (description = "회원 번호" )
     @Column(name="tt_mi_seq")     private Long ttMiSeq;
+
+    @OneToOne(mappedBy = "TravelPlace")
+    private List<TravelScheduleEntity> schedule = new ArrayList<>();
 }
 
 

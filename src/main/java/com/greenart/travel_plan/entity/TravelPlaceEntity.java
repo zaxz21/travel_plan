@@ -1,11 +1,16 @@
 package com.greenart.travel_plan.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,5 +41,8 @@ public class TravelPlaceEntity {
     @Column(name = "tp_image") private String tpImage;
     @Schema(description = "여행지 종류",example = "1:명소/2:호텔3:식당" )
     @Column(name = "tp_type") private Integer tpType;
+
+    @OneToMany(mappedBy = "TravelPlace")
+    private List<TravelScheduleEntity> schedule = new ArrayList<>();
     
 }
