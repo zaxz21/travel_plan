@@ -1,4 +1,4 @@
-package com.greenart.travel_plan.vo;
+package com.greenart.travel_plan.vo.like;
 
 import com.greenart.travel_plan.entity.TravelLikeEntity;
 
