@@ -11,45 +11,66 @@ import org.springframework.stereotype.Service;
 import com.greenart.travel_plan.entity.MemberInfoEntity;
 import com.greenart.travel_plan.entity.TravelLikeEntity;
 import com.greenart.travel_plan.entity.TravelLikeMemberEntity;
+import com.greenart.travel_plan.entity.TravelPlaceEntity;
 import com.greenart.travel_plan.repository.MemberInfoRepository;
 import com.greenart.travel_plan.repository.TravelLikeCountRepository;
 import com.greenart.travel_plan.repository.TravelLikeMemberRepository;
 import com.greenart.travel_plan.repository.TravelLikeRepository;
-import com.greenart.travel_plan.vo.PlaceLikeVO;
-import com.greenart.travel_plan.vo.TravelLikeVO;
+import com.greenart.travel_plan.repository.TravelPlaceRepository;
+import com.greenart.travel_plan.vo.TravelCountReponseVO;
+import com.greenart.travel_plan.vo.like.PlaceLikeVO;
+import com.greenart.travel_plan.vo.like.TravelLikePlaceVO;
+import com.greenart.travel_plan.vo.like.TravelLikeVO;
+
 import com.greenart.travel_plan.vo.member.MemberLikeVO;
+import com.greenart.travel_plan.vo.member.MemberLoginVO;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class TravelLikeService {
+    private final TravelPlaceRepository travelPlaceRepository;
     private final TravelLikeRepository travelLikeRepository;
     private final TravelLikeCountRepository  travelLikeCountRepository;
     private final TravelLikeMemberRepository travelLikeMemberRepository;
     private final MemberInfoRepository memberInfoRepository;
-       public Map<String, Object> placeLike(Long tpseq,Long miseq ){
+       public TravelCountReponseVO placeLike(Long tpseq,Long miseq){
         Map <String,Object> resultMap = new LinkedHashMap<String, Object>();
-        // TravelLikeEntity entity = new TravelLikeEntity(null,tpseq,miseq);
-        // travelLikeRepository.save(entity);
+
+        TravelPlaceEntity travel = travelPlaceRepository.findById(tpseq).orElse(null);
+        if(travel==null){
+          TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(false).message("여행지번호 오류입니다.").code(HttpStatus.BAD_REQUEST).build();
+          return tReponse;
+        } 
+        MemberInfoEntity member = memberInfoRepository.findById(miseq).orElse(null);
+        if(member==null){
+          TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(false).message("회원번호 오류입니다.").code(HttpStatus.BAD_REQUEST).build();
+          return tReponse;
+        } 
+        if(travelLikeRepository.countByTravelAndMember(travel, member)>=1){
+           TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(false).message("이미 좋아요한 여행지입니다.").code(HttpStatus.BAD_REQUEST).build();
+          return tReponse;
+        }
+        TravelLikeEntity entity = new TravelLikeEntity(null, travel, member);
+        travelLikeRepository.save(entity);
+        TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(true).message("좋아요!").code(HttpStatus.OK).build();
         resultMap.put("status", true);
         resultMap.put("message", "좋습니다.");
         resultMap.put("code",HttpStatus.OK);
         return resultMap;
      }
-     public Map<String, Object> getTravelCount(Long tpseq) {
-       Map <String,Object> resultMap = new LinkedHashMap<String, Object>();
+     public TravelCountReponseVO getTravelCount(Long tpseq) {
        if(tpseq == null ) {
-        resultMap.put("status", true);
-       resultMap.put("message","조회에 성공했습니다.");
-       resultMap.put("result", travelLikeCountRepository.findAll() );
+        TravelCountReponseVO travel = TravelCountReponseVO.builder().status(true).message("조회에 성공했습니다.").
+        result(travelLikeCountRepository.findAll()).build();
+        return travel;
        }
        else{
-       resultMap.put("status", true);
-       resultMap.put("message","조회에 성공했습니다.");
-       resultMap.put("result", travelLikeCountRepository.findByTpSeq(tpseq) );
+            TravelCountReponseVO travel = TravelCountReponseVO.builder().status(true).message("조회에 성공했습니다.").
+        result(travelLikeCountRepository.findByTpSeq(tpseq)).build();
+        return travel;
        }
-       return resultMap;
 
      }
      public List<TravelLikeMemberEntity> getTravelMember (Long miseq) {
@@ -58,8 +79,7 @@ public class TravelLikeService {
       return list;
      }
 
-     public Map<String, Object> travelLike(Long miseq) {
-      Map <String,Object> resultmap = new LinkedHashMap<String,Object>();
+     public  List<TravelLikeVO>travelLike(Long miseq) {
       MemberInfoEntity member = memberInfoRepository.findById(miseq).get();
 
        List<TravelLikeEntity> travel = travelLikeRepository.findByMember(member);
@@ -73,8 +93,8 @@ public class TravelLikeService {
         result.add(tr);
 
        }
-       resultmap.put("data", result);
-         return resultmap;
+    
+         return result;
      }
     
 }

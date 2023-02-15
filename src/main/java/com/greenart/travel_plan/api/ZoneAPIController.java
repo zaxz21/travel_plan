@@ -41,7 +41,7 @@ public class ZoneAPIController {
     
     @Operation(summary = "권역별 여행지 조회")
     @GetMapping("/cate")
-    public ResponseEntity<Object> showCategory(@Parameter(description = "상위 지역 번호")@RequestParam Long seq){
+    public ResponseEntity<Object> showCategory(@Parameter(name= "seq",description = "상위 지역 번호")@RequestParam Long seq){
         Map<String, Object> resultMap = cateService.showCategory(seq);
         return new ResponseEntity<Object>(resultMap ,HttpStatus.OK);
     }

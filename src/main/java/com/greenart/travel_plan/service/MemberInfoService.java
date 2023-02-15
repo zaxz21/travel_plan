@@ -12,6 +12,7 @@ import com.greenart.travel_plan.entity.MemberInfoEntity;
 import com.greenart.travel_plan.entity.TravelLikeEntity;
 import com.greenart.travel_plan.repository.MemberInfoRepository;
 import com.greenart.travel_plan.repository.TravelLikeRepository;
+import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.member.MemberAddVo;
 import com.greenart.travel_plan.vo.member.MemberInfoVO;
 import com.greenart.travel_plan.vo.member.MemberLoginVO;
@@ -21,39 +22,38 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberInfoService {
     private final  MemberInfoRepository memberInfoRepository;
-     public Map<String, Object> addMember(MemberAddVo data) {
-        Map<String, Object> map = new LinkedHashMap<String, Object>();
-
+    
+     public MemberAddReponseVO addMember(MemberAddVo data) {
         if (data.getMiEmail() == null || data.getMiEmail().equals("")) {
-            map.put("status", false);
-            map.put("message", "아이디를 입력하세요");
-            map.put("code",HttpStatus.BAD_REQUEST);
+            MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("이메일을 입력해주세요").code(HttpStatus.BAD_REQUEST).build();
+               return add;
         }
         else if(memberInfoRepository.countByMiEmail(data.getMiEmail()) !=0){
-            map.put("status", false);
-            map.put("message", data.getMiEmail()+"은/는 이미 사용중입니다.");
-            map.put("code",HttpStatus.BAD_REQUEST);
+            MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message(data.getMiEmail()+"은/는 이미 사용중입니다.").
+            code(HttpStatus.BAD_REQUEST).build();
+               return add;
+        
         }
         else if (data.getMiPwd() == null || data.getMiPwd().equals("")) {
-            map.put("status", false);
-            map.put("message", "비밀번호를 입력하세요");
-            map.put("code",HttpStatus.BAD_REQUEST);
+                  MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("비밀번호를 입력해주세요").
+            code(HttpStatus.BAD_REQUEST).build();
+               return add;
         }
         else if (data.getMiNickname() == null || data.getMiNickname().equals("")) {
-            map.put("status", false);
-            map.put("message", "이름을 입력하세요");
-            map.put("code",HttpStatus.BAD_REQUEST);
+              MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("이름을 입력해주세요").
+            code(HttpStatus.BAD_REQUEST).build();
+               return add;
         }
         else {
             MemberInfoEntity entity = MemberInfoEntity.builder().miEmail(data.getMiEmail()).miPwd(data.getMiPwd()).
             miName(data.getMiName()).miNickname(data.getMiNickname()).miPhone(data.getMiPhone()).build();
             memberInfoRepository.save(entity);
-            map.put("status", true);
-            map.put("message", "회원가입 완료");
-            map.put("code",HttpStatus.ACCEPTED);
+            MemberAddReponseVO add = MemberAddReponseVO.builder().status(true).message("회원가입이 완료되었습니다.").
+            code(HttpStatus.OK).build();
+            return add;
         }
 
-        return map;
+        
     }
      public Map<String, Object> loginAdmin(MemberLoginVO login) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
@@ -80,27 +80,26 @@ public class MemberInfoService {
         map.put("code",HttpStatus.ACCEPTED);
     }
     return map;
+
     }
         public MemberInfoEntity getMemberInfo (Long miseq){
         return memberInfoRepository.findByMiSeq(miseq);
     }
 
-    public Map<String, Object> deleteMember (Long miseq) {
-    Map <String,Object> resultMap = new LinkedHashMap<String,Object>();
+    public MemberAddReponseVO deleteMember (Long miseq) {
      MemberInfoEntity User = memberInfoRepository.findByMiSeq(miseq);
     if(User == null) {
-      resultMap.put("status", false);
-      resultMap.put("message", "해당 회원이 존재하지 않습니다.");
-      resultMap.put("code",HttpStatus.BAD_REQUEST);
+            MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("해당 회원이 존재하지 않습니다.").
+            code(HttpStatus.BAD_REQUEST).build();
+            return add;
     }
     else{
         memberInfoRepository.delete(User);
-      resultMap.put("status", true);
-      resultMap.put("message", "회원탈퇴가 완료되었습니다.");
-      resultMap.put("code",HttpStatus.OK);
+               MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("회원탈퇴가 완료되었습니다.").
+            code(HttpStatus.OK).build();
+            return add;
     }
-    return resultMap;
-    }
+}
   
     
 }

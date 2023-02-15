@@ -23,6 +23,7 @@ import com.greenart.travel_plan.entity.MemberInfoEntity;
 import com.greenart.travel_plan.entity.ZoneConnectionEntity;
 import com.greenart.travel_plan.repository.ZoneConnectionRepository;
 import com.greenart.travel_plan.service.MemberInfoService;
+import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.member.MemberAddVo;
 import com.greenart.travel_plan.vo.member.MemberLoginVO;
 
@@ -37,39 +38,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberInfoAPIController {
   private final MemberInfoService memberInfoService;
-    @Operation(summary = "회원가입")
-    @PutMapping(value = "/add", consumes=MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) 
-    public ResponseEntity<Object> putAddMember (
-      @Parameter(description = "multipart/formdata 로 데이터를 입력합니다(miEmail:이메일 / miPwd:비밀번호 / miPhone:전화번호 /miNickname:닉네임 / miName:이름)")
-      MemberAddVo data) {
-        Map<String, Object>  resultmap = memberInfoService.addMember(data);
-        
-        return new ResponseEntity<Object>(resultmap,(HttpStatus)resultmap.get("code"));
-      }
-      @Operation(summary = "로그인")
-      @PostMapping(value = "/login", consumes=MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)  //로그인
-      public ResponseEntity<Object> memberLogin(
-        @Parameter(description = "multipart/formdata 로 데이터를 입력합니다(miEmail:이메일/ miPwd:비밀번호)")
-        MemberLoginVO data , HttpSession session) {
-        Map<String, Object> resultmap = memberInfoService.loginAdmin(data);
-        session.setAttribute("loginUser", resultmap.get("login"));
-      return new ResponseEntity<Object>(resultmap, (HttpStatus)resultmap.get("code"));
+  @Operation(summary = "회원가입")
+  @PutMapping(value = "/add", consumes=MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE) 
+  public ResponseEntity<MemberAddReponseVO> putAddMember (
+    @Parameter(description = "multipart/formdata 로 데이터를 입력합니다(miEmail:이메일 / miPwd:비밀번호 / miPhone:전화번호 /miNickname:닉네임 / miName:이름)")
+    MemberAddVo data) {
+      return new ResponseEntity<>(memberInfoService.addMember(data),HttpStatus.OK);
+    }
+  @Operation(summary = "로그인")
+  @PostMapping(value = "/login", consumes=MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)  //로그인
+  public ResponseEntity<Object> memberLogin(
+    @Parameter(description = "multipart/formdata 로 데이터를 입력합니다(miEmail:이메일/ miPwd:비밀번호)")
+    MemberLoginVO data , HttpSession session) {
+    Map<String, Object> resultmap = memberInfoService.loginAdmin(data);
+    session.setAttribute("loginUser", resultmap.get("login"));
+    System.out.println(session);
+  return new ResponseEntity<Object>(resultmap, (HttpStatus)resultmap.get("code"));
   }
+  @Operation(summary = "로그아웃")
+  @GetMapping("/logout")
+  public ResponseEntity<Object> getLogout(
+    @Parameter(name= "miseq", description = "로그인한 회원의 miseq를 받아서 해당 회원 로그아웃 처리")  
+    Long miseq) {
+    Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    resultMap.put("message", "로그아웃 되었습니다.");
+    return new ResponseEntity<Object>(resultMap, HttpStatus.OK);
+  }
+
   @Operation(summary = "로그인 한 회원정보 출력")
   @GetMapping(value = "/list") //회원정보 출력
-  public ResponseEntity<Object> getMemberList(
+  public ResponseEntity<MemberInfoEntity> getMemberList(
   @Parameter(name= "miseq", description = "로그인한 회원의 miseq를 받아서 해당 회원의 정보 출력")  
    @RequestParam Long miseq){
-    MemberInfoEntity member = memberInfoService.getMemberInfo(miseq);
-     return new ResponseEntity<Object>(member, HttpStatus.OK);
+     return new ResponseEntity<>(memberInfoService.getMemberInfo(miseq), HttpStatus.OK);
   }
   @Operation(summary = "로그인 한 회원삭제")
   @DeleteMapping(value = "/delete") // 회원삭제
-  public ResponseEntity<Object> deleteMember(
+  public ResponseEntity<MemberAddReponseVO> deleteMember(
   @Parameter(name= "miseq" ,description = "로그인한 회원의 miseq를 받아서 해당 회원의 정보 삭제")    
   @RequestParam Long miseq){
-    Map<String, Object> resultMap = memberInfoService.deleteMember(miseq);
-     return new ResponseEntity<Object>(resultMap, HttpStatus.OK);
+     return new ResponseEntity<>(memberInfoService.deleteMember(miseq), HttpStatus.OK);
   }
 
     
