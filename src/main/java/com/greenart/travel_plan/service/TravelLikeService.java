@@ -36,8 +36,6 @@ public class TravelLikeService {
     private final TravelLikeMemberRepository travelLikeMemberRepository;
     private final MemberInfoRepository memberInfoRepository;
        public TravelCountReponseVO placeLike(Long tpseq,Long miseq){
-        Map <String,Object> resultMap = new LinkedHashMap<String, Object>();
-
         TravelPlaceEntity travel = travelPlaceRepository.findById(tpseq).orElse(null);
         if(travel==null){
           TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(false).message("여행지번호 오류입니다.").code(HttpStatus.BAD_REQUEST).build();
@@ -55,19 +53,16 @@ public class TravelLikeService {
         TravelLikeEntity entity = new TravelLikeEntity(null, travel, member);
         travelLikeRepository.save(entity);
         TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(true).message("좋아요!").code(HttpStatus.OK).build();
-        resultMap.put("status", true);
-        resultMap.put("message", "좋습니다.");
-        resultMap.put("code",HttpStatus.OK);
-        return resultMap;
+        return tReponse;
      }
      public TravelCountReponseVO getTravelCount(Long tpseq) {
        if(tpseq == null ) {
-        TravelCountReponseVO travel = TravelCountReponseVO.builder().status(true).message("조회에 성공했습니다.").
+        TravelCountReponseVO travel = TravelCountReponseVO.builder().status(true).message("조회에 성공했습니다.").code(HttpStatus.OK).
         result(travelLikeCountRepository.findAll()).build();
         return travel;
        }
        else{
-            TravelCountReponseVO travel = TravelCountReponseVO.builder().status(true).message("조회에 성공했습니다.").
+            TravelCountReponseVO travel = TravelCountReponseVO.builder().status(true).message("조회에 성공했습니다.").code(HttpStatus.OK).
         result(travelLikeCountRepository.findByTpSeq(tpseq)).build();
         return travel;
        }
