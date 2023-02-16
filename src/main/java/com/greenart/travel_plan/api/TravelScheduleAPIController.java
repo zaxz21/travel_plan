@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.greenart.travel_plan.entity.TravelScheduleEntity;
 import com.greenart.travel_plan.service.TravelScheduleService;
+import com.greenart.travel_plan.vo.TravelScheduleVO;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -28,7 +29,7 @@ public class TravelScheduleAPIController {
     @ApiResponse(responseCode = "200" , description = "일정추가")
     @ApiResponse(responseCode = "403" , description = "로그인 되지 않은 유저가 접근시")
     @GetMapping("")
-    public ResponseEntity<TravelScheduleEntity<List<TravelScheduleVO>>> getScheduleInfo() {
+    public ResponseEntity<TravelScheduleEntity<List<TravelScheduleVO >>> getScheduleInfo() {
         return new ResponseEntity<>(
                 new CartinfoResponseBody<>(true, null, tsService.getScheduleInfo(userSeq)), 
                 HttpStatus.OK

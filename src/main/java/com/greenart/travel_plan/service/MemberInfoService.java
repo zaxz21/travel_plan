@@ -12,6 +12,7 @@ import com.greenart.travel_plan.entity.MemberInfoEntity;
 import com.greenart.travel_plan.entity.TravelLikeEntity;
 import com.greenart.travel_plan.repository.MemberInfoRepository;
 import com.greenart.travel_plan.repository.TravelLikeRepository;
+import com.greenart.travel_plan.utils.MbAESAlgorithm;
 import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.member.MemberAddVo;
 import com.greenart.travel_plan.vo.member.MemberInfoVO;
@@ -36,15 +37,26 @@ public class MemberInfoService {
         }
         else if (data.getMiPwd() == null || data.getMiPwd().equals("")) {
                   MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("비밀번호를 입력해주세요").
-            code(HttpStatus.BAD_REQUEST).build();
+                code(HttpStatus.BAD_REQUEST).build();
                return add;
         }
+        else if(data.getMiPwd().length()<8) {
+                   MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("비밀번호는 8자리 이상입니다.").
+                   code(HttpStatus.BAD_REQUEST).build();
+                   return add;
+    }
+        
         else if (data.getMiNickname() == null || data.getMiNickname().equals("")) {
               MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("이름을 입력해주세요").
             code(HttpStatus.BAD_REQUEST).build();
                return add;
         }
         else {
+            try{
+            String encPwd = MbAESAlgorithm.Encrypt(data.getMiPwd());
+             data.setMiPwd(encPwd);
+            }
+             catch (Exception e) {e.printStackTrace();}
             MemberInfoEntity entity = MemberInfoEntity.builder().miEmail(data.getMiEmail()).miPwd(data.getMiPwd()).
             miName(data.getMiName()).miNickname(data.getMiNickname()).miPhone(data.getMiPhone()).build();
             memberInfoRepository.save(entity);
@@ -57,7 +69,11 @@ public class MemberInfoService {
     }
      public Map<String, Object> loginAdmin(MemberLoginVO login) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        MemberInfoEntity entity = memberInfoRepository.findByMiEmailAndMiPwd(login.getMiEmail(), login.getMiPwd());
+        MemberInfoEntity entity = null;
+        try{
+         entity = memberInfoRepository.findByMiEmailAndMiPwd(login.getMiEmail(),  MbAESAlgorithm.Encrypt(login.getMiPwd()));
+        }
+        catch(Exception e) {e.printStackTrace();}
         if (entity == null) {
             map.put("status", false);
             map.put("message","아이디 혹은 비밀번호 오류입니다.");

@@ -9,7 +9,7 @@ public class MemberInfoVO {
 
 // private Long miSeq;
 private String miEmail;
-private String miPwd;
+// private String miPwd;
 private String miPhone;
 private String miNickname;
 private Integer miStatus;
@@ -18,7 +18,7 @@ private String miName;
 public MemberInfoVO(MemberInfoEntity entity) {
 // this.miSeq = entity.getMiSeq();
 this.miEmail = entity.getMiEmail();
-this.miPwd = entity.getMiPwd();
+// this.miPwd = entity.getMiPwd();
 this.miPhone = entity.getMiPhone();
 this.miNickname = entity.getMiNickname();
 this.miStatus = entity.getMiStatus();

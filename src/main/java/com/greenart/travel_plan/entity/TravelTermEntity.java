@@ -38,8 +38,8 @@ public class TravelTermEntity {
     @Schema (description = "회원 번호" )
     @Column(name="tt_mi_seq")     private Long ttMiSeq;
 
-    @OneToOne(mappedBy = "TravelPlace")
-    private List<TravelScheduleEntity> schedule = new ArrayList<>();
+    // @OneToOne(mappedBy = "TravelPlace")
+    // private List<TravelScheduleEntity> schedule = new ArrayList<>();
 }
 
 
