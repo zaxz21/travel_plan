@@ -40,17 +40,17 @@ public class TravelScheduleEntity {
     @Column(name="ts_date") private LocalDateTime tsDate;
 
     @Schema (description = "여행기간 번호" )
-    @JoinColumn(name="ts_tt_seq")
-    @OneToOne(fetch = FetchType.LAZY)
-    TravelTermEntity travelTerm;
-    // private Long tsTtSeq;
+    // @JoinColumn(name="ts_tt_seq")
+    // @OneToOne(fetch = FetchType.LAZY)
+    // TravelTermEntity travelTerm;
+    private Long tsTtSeq;
 
     @Schema (description = "여행지 번호" )
-    @JoinColumn(name="ts_tp_seq")
-    @OneToMany(fetch = FetchType.LAZY)
-    TravelPlaceEntity travelPlace;
+    // @JoinColumn(name="ts_tp_seq")
+    // @OneToMany(fetch = FetchType.LAZY)
+    // TravelPlaceEntity travelPlace;
     
-    // private Long tsTpSeq;
+    private Long tsTpSeq;
 }
 
 // 나의 일정

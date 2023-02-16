@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,7 +25,10 @@ import com.greenart.travel_plan.service.category.CategoryService;
 import com.greenart.travel_plan.vo.category.AddZoneVO;
 import com.greenart.travel_plan.vo.category.AllCateResponseVO;
 import com.greenart.travel_plan.vo.category.CateResponseVO;
+import com.greenart.travel_plan.vo.category.ChildZoneVO;
+import com.greenart.travel_plan.vo.category.DeleteCateVO;
 import com.greenart.travel_plan.vo.category.ParentZoneVO;
+import com.greenart.travel_plan.vo.category.UpdateCateVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -48,16 +53,28 @@ public class ZoneAPIController {
     @Operation(summary = "권역별 여행지 조회")
     @GetMapping("/cate")
     public ResponseEntity<CateResponseVO> showCategory(@Parameter(name = "seq", description = "상위 지역 번호")@RequestParam Long seq){
-        // Map<String, Object> resultMap = cateService.showCategory(seq);
         return new ResponseEntity<>(cateService.showCategory(seq), HttpStatus.OK);
-        // return new ResponseEntity<Object>(resultMap ,HttpStatus.OK);
     }
     // 지역 추가
     @Operation(summary = "지역 추가")
     @PutMapping("/add")
-    public ResponseEntity<AddZoneVO> pupCateAdd(AddZoneVO data){
+    public ResponseEntity<AddZoneVO> addCate(AddZoneVO data){
         return new ResponseEntity<>(cateService.addCategory(data), HttpStatus.OK);
         // Map<String, Object> map = cateService.addCategory(data);
         // return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    // 수정
+    @Operation(summary = "하위 지역 수정")
+    @PatchMapping("/update/{seq}")
+    public ResponseEntity<UpdateCateVO> updateCate(UpdateCateVO data, @PathVariable Long seq) {
+        return new ResponseEntity<>(cateService.updateCategory(data, seq), HttpStatus.OK);
+    }
+
+    // 삭제
+    @Operation(summary = "하위 지역 삭제")
+    @DeleteMapping("/delete/{seq}")
+    public ResponseEntity<DeleteCateVO> deleteCate(DeleteCateVO data, @PathVariable Long seq){
+        return new ResponseEntity<>(cateService.deleteCate(data,seq), HttpStatus.OK);
     }
 }

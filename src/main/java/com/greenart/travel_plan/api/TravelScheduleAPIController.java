@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.greenart.travel_plan.entity.TravelScheduleEntity;
 import com.greenart.travel_plan.service.TravelScheduleService;
+import com.greenart.travel_plan.vo.TravelScheduleVO;
 
 import org.springframework.web.bind.annotation.GetMapping;
 

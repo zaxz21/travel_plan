@@ -9,6 +9,9 @@ import lombok.Data;
 public class ChildZoneVO {
     private Long seq;
     private String name;
+    private String engname;
+    private Double latitude;
+    private Double longitude;
     private String explanation;
     // private ImageVO image;
     private ImgInfoEntity image;
@@ -16,6 +19,9 @@ public class ChildZoneVO {
     public ChildZoneVO(ZoneConnectionEntity entity){
         this.seq = entity.getChild().getSeq();
         this.name = entity.getChild().getName();
+        this.engname = entity.getChild().getEngname();
+        this.latitude = entity.getChild().getLatitude();
+        this.longitude = entity.getChild().getLongitude();
         this.explanation = entity.getChild().getExplanation();
         this.image = entity.getChild().getImage();
         // this.uri = entity.getChild().getImage().getIiSeq();

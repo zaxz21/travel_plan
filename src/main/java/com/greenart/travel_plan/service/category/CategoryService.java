@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,11 @@ import com.greenart.travel_plan.vo.category.AddZoneVO;
 import com.greenart.travel_plan.vo.category.AllCateResponseVO;
 import com.greenart.travel_plan.vo.category.CateResponseVO;
 import com.greenart.travel_plan.vo.category.ChildZoneVO;
+import com.greenart.travel_plan.vo.category.DeleteCateVO;
 import com.greenart.travel_plan.vo.category.ParentZoneVO;
+import com.greenart.travel_plan.vo.category.UpdateCateVO;
 
-
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -43,8 +46,6 @@ public class CategoryService {
     }
 
     public CateResponseVO showCategory(Long seq){
-    // public Map<String, Object> showCategory(Long seq){
-        // Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         ParentZoneEntity parent = pzRepo.findById(seq).orElse(null);
         if(parent==null){
             CateResponseVO cVo = CateResponseVO.builder()
@@ -71,14 +72,15 @@ public class CategoryService {
             return cVo;
     }
     public AddZoneVO addCategory(AddZoneVO data){
-    // public Map<String, Object> addCategory(AddZoneVO data){
-    //     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         ParentZoneEntity entity = ParentZoneEntity.builder()
         .name(data.getPzName())
         .build();
         pzRepo.save(entity);
         ChildZoneEntity cEntity = ChildZoneEntity.builder()
         .name(data.getCzName())
+        .engname(data.getCzEngname())
+        .latitude(data.getCzLatitude())
+        .longitude(data.getCzLongitude())
         .explanation(data.getCzExplanation())
         // .image(data.getImage())
         .build();
@@ -94,5 +96,69 @@ public class CategoryService {
         // .czExplanation(data.getCzExplanation())
         .build();
         return aVo;
+    }
+    
+    public UpdateCateVO updateCategory(UpdateCateVO data, Long seq){
+    ChildZoneEntity child = czRepo.findBySeq(seq);
+    // .findById(seq).get();
+    if(child == null){
+        UpdateCateVO uVo = UpdateCateVO.builder()
+        .status(false)
+        .message("잘못된 지역 번호입니다.")
+        .code(HttpStatus.BAD_REQUEST)
+        .build();
+        return uVo;
+    }
+    else{
+        if(data.getCzName() != null && data.getCzExplanation() != null){
+            child.setName(data.getCzName());
+            child.setExplanation(data.getCzExplanation());
+            child.setEngname(data.getCzEngName());
+            czRepo.save(child);
+            UpdateCateVO uVo = UpdateCateVO.builder()
+            .status(true)
+            .message("수정하였습니다.")
+            .code(HttpStatus.ACCEPTED)
+            .czName(data.getCzName())
+            .czEngName(data.getCzEngName())
+            .czExplanation(data.getCzExplanation())
+            .build();
+            return uVo;
+
+        }
+        else{
+            UpdateCateVO uVo = UpdateCateVO.builder()
+            .status(false)
+            .message("이름과 설명을 입력해주세요.")
+            .code(HttpStatus.BAD_REQUEST)
+            .build();
+            return uVo;
+            }
+        }
+    }
+
+    @Transactional
+    public void deleteCate(Long seq){
+        czRepo.deleteById(seq);
+    }
+    public DeleteCateVO deleteCate(DeleteCateVO data, Long seq){
+        ChildZoneEntity child = czRepo.findBySeq(seq);
+        if(child == null){
+            DeleteCateVO dVo = DeleteCateVO.builder()
+            .status(false)
+            .message("잘못된 지역 번호입니다.")
+            .code(HttpStatus.BAD_REQUEST)
+            .build();
+            return dVo;
+    }
+    else{
+        czRepo.deleteById(seq);
+            DeleteCateVO dVo = DeleteCateVO.builder()
+                .status(true)
+                .message("삭제되었습니다.")
+                .code(HttpStatus.ACCEPTED)
+                .build();
+                return dVo;
+        }
     }
 }
