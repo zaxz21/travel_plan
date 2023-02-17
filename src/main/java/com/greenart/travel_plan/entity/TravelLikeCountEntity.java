@@ -21,11 +21,17 @@ import lombok.NoArgsConstructor;
 @Entity
 public class TravelLikeCountEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "여행지 번호" , example = "1")
-    @Column(name = "tp_seq") private Long tpSeq;
-    @Schema(description = "여행지 이름" , example = "강릉 경포대")
-    @Column(name = "tp_name") private String tpName;
-    @Schema(description = "좋아요 수" , example = "8")
-    @Column(name = "likeplace") private Long likeplace;
-    
+    // @Schema(description = "여행지 번호" , example = "1")
+    // @Schema(description = "여행지 이름" , example = "강릉 경포대")
+    // @Schema(description = "좋아요 수" , example = "8")
+    @Column(name = "tl_seq")  private Long tlSeq;
+    @Column(name = "tp_seq")  private Long tpSeq;
+    @Column(name = "tp_name")  private String tpName;
+    @Column(name = "tp_adress")  private String tpAdress;
+    @Column(name = "tp_latitude")  private Double tpLatitude;
+    @Column(name = "tp_longitude")  private Double tpIongitude;
+    @Column(name = "tp_image")  private String tpImage;
+    @Column(name = "tp_type")  private Integer tpType;
+    @Column(name = "likeplace")  private Integer likeplace;
+
 }
