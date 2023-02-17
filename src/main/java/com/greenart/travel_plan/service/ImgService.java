@@ -30,8 +30,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class ImgService {
     
-    @Autowired ImgInfoRepository ImgRepo;
     // @Autowired ImgService ImgServce;
+    @Autowired ImgInfoRepository ImgRepo;
     @Value("${file.image.local}") String local_img_path;
     
     // 이미지 업로드
@@ -61,6 +61,8 @@ public class ImgService {
 
         ImgInfoEntity ImgEntity = ImgInfoEntity.builder().iiFileName(saveFilename).build();
         ImgRepo.save(ImgEntity);
+
+        resultMap.put("image", ImgEntity);
         resultMap.put("status", true);
         resultMap.put("message", "파일이 저장되었습니다.");
         resultMap.put("code", HttpStatus.OK);
@@ -69,12 +71,7 @@ public class ImgService {
     }
 
     // 이미지 다운로드
-<<<<<<< HEAD
-
-    public Map<String, Object> downLocalImage (String imgname, MultipartFile file) {
-=======
     public ResponseEntity<Resource> downLocalImage (String imgname, HttpServletRequest request) throws Exception {
->>>>>>> hozin
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             
         ImgInfoEntity entity = ImgRepo.findByiiFileNameContaining(imgname);
@@ -123,15 +120,6 @@ public class ImgService {
         // resultMap.put("code", HttpStatus.OK);
         // return resultMap;
 
-<<<<<<< HEAD
-//         return resultMap;
-//     }
-
-//     // 이미지 삭제
-//     @Transactional
-//     public Map<String, Object> deleteLocalImage (ImgInfoEntity data) {
-//         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-=======
     }
 
     
@@ -140,13 +128,12 @@ public class ImgService {
     @Transactional
     public Map<String, Object> deleteLocalImage (ImgInfoEntity data) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
->>>>>>> hozin
         
-//         ImgRepo.deleteByIiSeq(data.getIiSeq());
-//         resultMap.put("status", true);
-//         resultMap.put("message", "삭제 되었습니다.");
-//         resultMap.put("code", HttpStatus.OK);
+        ImgRepo.deleteByIiSeq(data.getIiSeq());
+        resultMap.put("status", true);
+        resultMap.put("message", "삭제 되었습니다.");
+        resultMap.put("code", HttpStatus.OK);
 
-//         return resultMap;
+        return resultMap;
     }
 }

@@ -1,21 +1,31 @@
 package com.greenart.travel_plan.service.category;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.greenart.travel_plan.entity.ChildZoneEntity;
+import com.greenart.travel_plan.entity.ImgInfoEntity;
 import com.greenart.travel_plan.entity.ParentZoneEntity;
 import com.greenart.travel_plan.entity.ZoneConnectionEntity;
 import com.greenart.travel_plan.repository.ChildZoneRepository;
+import com.greenart.travel_plan.repository.ImgInfoRepository;
 import com.greenart.travel_plan.repository.ParentZoneRepository;
 import com.greenart.travel_plan.repository.ZoneConnectionRepository;
+import com.greenart.travel_plan.service.ImgService;
 import com.greenart.travel_plan.vo.category.AddZoneVO;
 import com.greenart.travel_plan.vo.category.AllCateResponseVO;
 import com.greenart.travel_plan.vo.category.CateResponseVO;
@@ -23,6 +33,7 @@ import com.greenart.travel_plan.vo.category.ChildZoneVO;
 import com.greenart.travel_plan.vo.category.DeleteCateVO;
 import com.greenart.travel_plan.vo.category.ParentZoneVO;
 import com.greenart.travel_plan.vo.category.UpdateCateVO;
+
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +44,9 @@ public class CategoryService {
     @Autowired ChildZoneRepository czRepo;
     @Autowired ParentZoneRepository pzRepo;
     @Autowired ZoneConnectionRepository zcRepo;
+    
+    @Autowired ImgInfoRepository  ImgRepo;
+    @Value("${file.image.local}") String local_img_path;
 
 
     public AllCateResponseVO showAllCate(AllCateResponseVO data){
@@ -71,7 +85,32 @@ public class CategoryService {
             .build();
             return cVo;
     }
-    public AddZoneVO addCategory(AddZoneVO data){
+    public AddZoneVO addCategory(AddZoneVO data,MultipartFile file){
+         Path  folderLocation = null;
+        folderLocation = Paths.get(local_img_path);
+        
+        String saveFilename = "";
+        String orginFileName = file.getOriginalFilename();
+
+        String[]split = orginFileName.split("\\.");
+        String firstname = split[split.length -2] + "_";
+        String ext = split[split.length -1];
+
+        Calendar c = Calendar.getInstance();
+        saveFilename += firstname + c.getTimeInMillis() + "." + ext; 
+        Path targetFile = folderLocation.resolve(saveFilename);
+
+        try {
+            Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ImgInfoEntity ImgEntity = ImgInfoEntity.builder().iiFileName(saveFilename).build();
+        ImgRepo.save(ImgEntity);
+
+
         ParentZoneEntity entity = ParentZoneEntity.builder()
         .name(data.getPzName())
         .build();
@@ -82,7 +121,7 @@ public class CategoryService {
         .latitude(data.getCzLatitude())
         .longitude(data.getCzLongitude())
         .explanation(data.getCzExplanation())
-        // .image(data.getImage())
+        .image(ImgEntity)
         .build();
         czRepo.save(cEntity);
         ZoneConnectionEntity zEntity = new ZoneConnectionEntity(null,entity,cEntity);

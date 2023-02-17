@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.greenart.travel_plan.entity.ZoneConnectionEntity;
 import com.greenart.travel_plan.repository.ChildZoneRepository;
@@ -58,8 +60,8 @@ public class ZoneAPIController {
     // 지역 추가
     @Operation(summary = "지역 추가")
     @PutMapping("/add")
-    public ResponseEntity<AddZoneVO> addCate(AddZoneVO data){
-        return new ResponseEntity<>(cateService.addCategory(data), HttpStatus.OK);
+    public ResponseEntity<AddZoneVO> addCate(@ModelAttribute AddZoneVO data, MultipartFile file){
+        return new ResponseEntity<>(cateService.addCategory(data,file), HttpStatus.OK);
         // Map<String, Object> map = cateService.addCategory(data);
         // return new ResponseEntity<>(map, HttpStatus.OK);
     }
