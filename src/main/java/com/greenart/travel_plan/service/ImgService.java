@@ -72,9 +72,9 @@ public class ImgService {
 
     // 이미지 다운로드
     public ResponseEntity<Resource> downLocalImage (String imgname, HttpServletRequest request) throws Exception {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        //Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             
-        ImgInfoEntity entity = ImgRepo.findByiiFileNameContaining(imgname);
+        ImgInfoEntity entity = ImgRepo.findByiiFileName(imgname);
         String searchname = entity.getIiFileName();
 
         // Path Pathsearchname = searchname;
@@ -97,33 +97,14 @@ public class ImgService {
             } catch (Exception e) {
                 e.printStackTrace(); }
                 
-                resultMap.put("status", true);
-                resultMap.put("message", "이미지가 다운로드 되었습니다.");
-                resultMap.put("code", HttpStatus.OK);
-                //resultMap.put("type",
-                // contentType(MediaType.parseMediaType(contentType)). 
-                // header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
-                // body(r));
-                // return resultMap;
-
-        // contentType(MediaType.parseMediaType(contentType)). 
-        // header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
-        // body(r);
-
         return ResponseEntity.ok().
         contentType(MediaType.parseMediaType(contentType)). 
         header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
         body(r);
 
-        // resultMap.put("status", true);
-        // resultMap.put("message", "이미지가 다운로드 되었습니다.");
-        // resultMap.put("code", HttpStatus.OK);
-        // return resultMap;
 
     }
-
     
-
     // 이미지 삭제
     @Transactional
     public Map<String, Object> deleteLocalImage (ImgInfoEntity data) {

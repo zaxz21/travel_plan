@@ -26,9 +26,9 @@ public class TravelScheduleVO {
         this.tsSeq = entity.getTsSeq();
         this.tsName = entity.getTsName();
         this.tsDate = entity.getTsDate();
-        this.startDate = entity.getTravelTerm().getTtStartDate();
-        this.endDate = entity.getTravelTerm().getTtEndDate();
-        this.placeName = entity.getTravelPlace().getTpName();
+        // this.startDate = entity.getTravelTerm().getTtStartDate();
+        // this.endDate = entity.getTravelTerm().getTtEndDate();
+        // this.placeName = entity.getTravelPlace().getTpName();
     }
 
     // TravelTermEntity travelTerm;

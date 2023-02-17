@@ -29,8 +29,12 @@ import com.greenart.travel_plan.entity.ImgInfoEntity;
 import com.greenart.travel_plan.repository.ImgInfoRepository;
 import com.greenart.travel_plan.service.ImgService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 
+@Tag(name = "이미지", description = "이미지 다운로드 업로드 API")
 @RestController
 @RequestMapping("/api/images")
 public class ImgAPIController {
@@ -39,18 +43,26 @@ public class ImgAPIController {
     @Autowired ImgInfoRepository imgRepo;
 
     // 이미지 업로드
+    @Operation(summary = "이미지 업로드 기능")
     @PutMapping("/upload/local")
-    public ResponseEntity<Object> ImgUpload(@RequestPart MultipartFile file) {
+    public ResponseEntity<Object> ImgUpload(
+        @Parameter(name = "file",description = "이미지 원본 파일")  
+        @RequestPart MultipartFile file) {
         Map<String, Object> resultMap = imgService.addLocalImage(file);   
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
 
     // 이미지 다운로드
+    @Operation(summary = "이미지 다운로드 기능")
     @GetMapping("/download/local")
-    public ResponseEntity<Resource> ImgDownload (@RequestParam String imgname,  HttpServletRequest request) throws Exception {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    public ResponseEntity<Resource> ImgDownload (
+        @Parameter(name = "imgname",description = "받을 이미지 이름")
+        @RequestParam String imgname,
+        @Parameter(name = "request",description = "이미지 원본 파일")
+        HttpServletRequest request) throws Exception {
+        // Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
             
-        ImgInfoEntity entity = imgRepo.findByiiFileNameContaining(imgname);
+        ImgInfoEntity entity = imgRepo.findByiiFileName(imgname);
         String searchname = entity.getIiFileName();
         // Path Pathsearchname = searchname;
         Path folderLocation = Paths.get(local_img_path);
@@ -70,19 +82,6 @@ public class ImgAPIController {
             } catch (Exception e) {
                 e.printStackTrace(); }
                 
-                resultMap.put("status", true);
-                resultMap.put("message", "이미지가 다운로드 되었습니다.");
-                resultMap.put("code", HttpStatus.OK);
-                //resultMap.put("type",
-                // contentType(MediaType.parseMediaType(contentType)). 
-                // header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
-                // body(r));
-                // return resultMap;
-
-        // contentType(MediaType.parseMediaType(contentType)). 
-        // header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
-        // body(r);
-
         return ResponseEntity.ok().
         contentType(MediaType.parseMediaType(contentType)). 
         header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
@@ -90,8 +89,11 @@ public class ImgAPIController {
     }
 
     // 이미지 삭제
+    @Operation(summary = "이미지 삭제")
     @DeleteMapping("/delete/local")
-    public ResponseEntity<Object> ImgDelete (@RequestBody ImgInfoEntity data) {
+    public ResponseEntity<Object> ImgDelete (
+        @Parameter(description = "삭제할 이미지 엔티티 데이터( 이미지 번호 )")
+        @RequestBody ImgInfoEntity data) {
         Map<String, Object> resultMap = imgService.deleteLocalImage(data);
         return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
