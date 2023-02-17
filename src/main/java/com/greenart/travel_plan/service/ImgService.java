@@ -1,6 +1,6 @@
 package com.greenart.travel_plan.service;
 
-import java.io.File;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,21 +11,27 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.greenart.travel_plan.entity.ImgInfoEntity;
 import com.greenart.travel_plan.repository.ImgInfoRepository;
 
-import jakarta.transaction.Transactional;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class ImgService {
     
     @Autowired ImgInfoRepository ImgRepo;
-    @Autowired ImgService ImgServce;
+    // @Autowired ImgService ImgServce;
     @Value("${file.image.local}") String local_img_path;
     
     // 이미지 업로드
@@ -63,14 +69,58 @@ public class ImgService {
     }
 
     // 이미지 다운로드
-    public Map<String, Object> downLocalImage (String imgname, MultipartFile file) {
+    public ResponseEntity<Resource> downLocalImage (String imgname, HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        Path forderLocation = null;
-        folderLocation = Paths.get(local_img_path);
-        filename = 
+            
+        ImgInfoEntity entity = ImgRepo.findByiiFileNameContaining(imgname);
+        String searchname = entity.getIiFileName();
 
-        return resultMap;
+        // Path Pathsearchname = searchname;
+        Path folderLocation = Paths.get(local_img_path);
+        Path targetFile = folderLocation.resolve(searchname);
+
+        Resource r = null;
+        String contentType = null;
+
+        try {
+            r = new UrlResource(targetFile.toUri());
+        } catch (Exception e) {
+            e.printStackTrace(); }
+
+        try {
+            contentType = request.getServletContext().getMimeType(r.getFile().getAbsolutePath());
+            if (contentType == null) { 
+                contentType = "application/octet-stream"; 
+            }
+            } catch (Exception e) {
+                e.printStackTrace(); }
+                
+                resultMap.put("status", true);
+                resultMap.put("message", "이미지가 다운로드 되었습니다.");
+                resultMap.put("code", HttpStatus.OK);
+                //resultMap.put("type",
+                // contentType(MediaType.parseMediaType(contentType)). 
+                // header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
+                // body(r));
+                // return resultMap;
+
+        // contentType(MediaType.parseMediaType(contentType)). 
+        // header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
+        // body(r);
+
+        return ResponseEntity.ok().
+        contentType(MediaType.parseMediaType(contentType)). 
+        header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
+        body(r);
+
+        // resultMap.put("status", true);
+        // resultMap.put("message", "이미지가 다운로드 되었습니다.");
+        // resultMap.put("code", HttpStatus.OK);
+        // return resultMap;
+
     }
+
+    
 
     // 이미지 삭제
     @Transactional
