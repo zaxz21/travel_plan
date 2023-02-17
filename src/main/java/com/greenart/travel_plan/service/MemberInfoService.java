@@ -25,6 +25,7 @@ public class MemberInfoService {
     private final  MemberInfoRepository memberInfoRepository;
     
      public MemberAddReponseVO addMember(MemberAddVo data) {
+        //   String pattern = "^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$"; // 특수문자 ,공백제외하고 허용(정규표현식)
         if (data.getMiEmail() == null || data.getMiEmail().equals("")) {
             MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("이메일을 입력해주세요").code(HttpStatus.BAD_REQUEST).build();
                return add;
