@@ -32,6 +32,7 @@ import com.greenart.travel_plan.vo.category.DeleteCateVO;
 import com.greenart.travel_plan.vo.category.ParentZoneVO;
 import com.greenart.travel_plan.vo.category.UpdateCateVO;
 
+import io.micrometer.common.lang.Nullable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,6 +52,14 @@ public class ZoneAPIController {
     public ResponseEntity<AllCateResponseVO> showAllCate(AllCateResponseVO data){
         return new ResponseEntity<>(cateService.showAllCate(data), HttpStatus.OK);
     }
+
+    @Operation(summary = "검색")
+    @GetMapping("/search")
+    public ResponseEntity<AllCateResponseVO> searchAllCate(@Parameter(name = "keyword", description = "지역명") AllCateResponseVO data, @RequestParam @Nullable String keyword){
+        return new ResponseEntity<>(cateService.searchAllCate(data, keyword) ,HttpStatus.OK);
+    }
+
+
     // 하위 지역까지 조회
     @Operation(summary = "권역별 여행지 조회")
     @GetMapping("/cate")

@@ -13,6 +13,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,6 +61,21 @@ public class CategoryService {
             return aVo;
     }
 
+    public AllCateResponseVO searchAllCate(AllCateResponseVO data, String keyword){
+        ChildZoneEntity child = czRepo.findByNameContains(keyword);
+        if(keyword == null){ AllCateResponseVO respone = AllCateResponseVO.builder()
+            .status(false)
+            .code(HttpStatus.BAD_REQUEST)
+            .message("검색어를 입력해주세요").build();
+        return respone;
+            }
+        else{
+            List<ZoneConnectionEntity> cateList = zcRepo.findByChild(child);
+            AllCateResponseVO respone = AllCateResponseVO.builder().status(true).code(HttpStatus.ACCEPTED).message("성공").list(cateList).build();
+            return respone;
+        }
+  }
+
     public CateResponseVO showCategory(Long seq){
         ParentZoneEntity parent = pzRepo.findById(seq).orElse(null);
         if(parent==null){
@@ -86,7 +103,7 @@ public class CategoryService {
             return cVo;
     }
     public AddZoneVO addCategory(AddZoneVO data,MultipartFile file){
-         Path  folderLocation = null;
+        Path  folderLocation = null;
         folderLocation = Paths.get(local_img_path);
         
         String saveFilename = "";
@@ -109,7 +126,6 @@ public class CategoryService {
 
         ImgInfoEntity ImgEntity = ImgInfoEntity.builder().iiFileName(saveFilename).build();
         ImgRepo.save(ImgEntity);
-
 
         ParentZoneEntity entity = ParentZoneEntity.builder()
         .name(data.getPzName())
