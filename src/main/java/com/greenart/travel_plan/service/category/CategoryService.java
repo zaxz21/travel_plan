@@ -103,6 +103,7 @@ public class CategoryService {
             return cVo;
     }
     public AddZoneVO addCategory(AddZoneVO data,MultipartFile file){
+        ParentZoneEntity paz = pzRepo.findByNameContains(data.getPzName());
         Path  folderLocation = null;
         folderLocation = Paths.get(local_img_path);
         
@@ -127,6 +128,7 @@ public class CategoryService {
         ImgInfoEntity ImgEntity = ImgInfoEntity.builder().iiFileName(saveFilename).build();
         ImgRepo.save(ImgEntity);
 
+        if(paz == null) {
         ParentZoneEntity entity = ParentZoneEntity.builder()
         .name(data.getPzName())
         .build();
@@ -151,6 +153,35 @@ public class CategoryService {
         // .czExplanation(data.getCzExplanation())
         .build();
         return aVo;
+        }
+        else{
+        // ParentZoneEntity entity = ParentZoneEntity.builder()
+        // .name(data.getPzName())
+        // .build();
+        // pzRepo.save(entity);
+        ChildZoneEntity cEntity = ChildZoneEntity.builder()
+        .name(data.getCzName())
+        .engname(data.getCzEngname())
+        .latitude(data.getCzLatitude())
+        .longitude(data.getCzLongitude())
+        .explanation(data.getCzExplanation())
+        .image(ImgEntity)
+        .build();
+        czRepo.save(cEntity);
+        ZoneConnectionEntity zEntity = new ZoneConnectionEntity(null,paz,cEntity);
+        zcRepo.save(zEntity);
+        AddZoneVO aVo = AddZoneVO.builder()
+        .status(true)
+        .message("추가하였습니다.")
+        .code(HttpStatus.ACCEPTED)
+        // .pzName(data.getPzName())
+        // .czName(data.getCzName())
+        // .czExplanation(data.getCzExplanation())
+        .build();
+        return aVo;
+        }
+       
+
     }
     
     public UpdateCateVO updateCategory(UpdateCateVO data, Long seq){

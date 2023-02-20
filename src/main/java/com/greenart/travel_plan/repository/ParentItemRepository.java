@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.greenart.travel_plan.entity.ParentItemEntity;
 
 public interface ParentItemRepository extends JpaRepository<ParentItemEntity, Long>{
-    
+    public ParentItemEntity findByPiNameContains(String name);
 }
