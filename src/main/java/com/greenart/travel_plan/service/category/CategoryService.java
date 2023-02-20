@@ -61,7 +61,7 @@ public class CategoryService {
             return aVo;
     }
 
-    public AllCateResponseVO searchAllCate(AllCateResponseVO data, String keyword){
+    public AllCateResponseVO searchAllCate(String keyword){
         ChildZoneEntity child = czRepo.findByNameContains(keyword);
         if(keyword == null){ AllCateResponseVO respone = AllCateResponseVO.builder()
             .status(false)
