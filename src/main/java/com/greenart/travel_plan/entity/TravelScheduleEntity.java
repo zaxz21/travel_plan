@@ -13,7 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -40,17 +40,14 @@ public class TravelScheduleEntity {
     @Column(name="ts_date") private LocalDateTime tsDate;
 
     @Schema (description = "여행기간 번호" )
-    // @JoinColumn(name="ts_tt_seq")
-    // @OneToOne(fetch = FetchType.LAZY)
-    // TravelTermEntity travelTerm;
-    private Long tsTtSeq;
+    @JoinColumn(name="ts_tt_seq")
+    @OneToOne(fetch = FetchType.LAZY)
+    TravelTermEntity travelTerm;
 
     @Schema (description = "여행지 번호" )
-    // @JoinColumn(name="ts_tp_seq")
-    // @OneToMany(fetch = FetchType.LAZY)
-    // TravelPlaceEntity travelPlace;
-    
-    private Long tsTpSeq;
+    @JoinColumn(name="ts_tp_seq")
+    @ManyToOne(fetch = FetchType.LAZY)
+    TravelPlaceEntity travelPlace;
 }
 
 // 나의 일정

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import com.greenart.travel_plan.entity.TravelScheduleEntity;
 import com.greenart.travel_plan.service.TravelScheduleService;
@@ -23,17 +24,17 @@ import java.util.List;
 @RequestMapping("/api/schedule")
 @RequiredArgsConstructor
 public class TravelScheduleAPIController {
-    // private final TravelScheduleService tsService;
+    private final TravelScheduleService tsService;
 
-    // @Operation(summary = "일정 불러오기")
-    // @ApiResponse(responseCode = "200" , description = "일정추가")
-    // @ApiResponse(responseCode = "403" , description = "로그인 되지 않은 유저가 접근시")
-    // @GetMapping("")
-    // public ResponseEntity<TravelScheduleEntity<List<TravelScheduleVO >>> getScheduleInfo() {
-    //     return new ResponseEntity<>(
-    //             new CartinfoResponseBody<>(true, null, tsService.getScheduleInfo(userSeq)), 
-    //             HttpStatus.OK
-    //         );
-    // }
+    @Operation(summary = "일정 불러오기")
+    @ApiResponse(responseCode = "200" , description = "일정추가")
+    @ApiResponse(responseCode = "403" , description = "로그인 되지 않은 유저가 접근시")
+    @GetMapping("")
+    public ResponseEntity<TravelScheduleEntity> getScheduleInfo() {
+        return new ResponseEntity<>(
+            TravelScheduleEntity.builder()
+            .build()
+        );
+    }
 
 }
