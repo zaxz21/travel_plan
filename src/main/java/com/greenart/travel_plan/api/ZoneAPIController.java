@@ -55,8 +55,8 @@ public class ZoneAPIController {
 
     @Operation(summary = "검색")
     @GetMapping("/search")
-    public ResponseEntity<AllCateResponseVO> searchAllCate(@Parameter(name = "keyword", description = "지역명") AllCateResponseVO data, @RequestParam @Nullable String keyword){
-        return new ResponseEntity<>(cateService.searchAllCate(data, keyword) ,HttpStatus.OK);
+    public ResponseEntity<AllCateResponseVO> searchAllCate(  @Parameter(name = "keyword", description = "지역명") @RequestParam @Nullable String keyword){
+        return new ResponseEntity<>(cateService.searchAllCate(keyword)  ,HttpStatus.OK);
     }
 
 
