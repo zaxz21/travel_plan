@@ -1,4 +1,4 @@
-package com.greenart.travel_plan.service;
+ package com.greenart.travel_plan.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class ItemService {
     @Autowired ChildItemRepository ciRepo;
     @Autowired ItemConnectionRepository icRepo;
 
-    public ItemViewVO showItem(){
+    public ItemViewVO showItem() {
         ItemViewVO iVo = ItemViewVO.builder()
         .status(true)
         .message("준비물을 조회했습니다.")
@@ -27,5 +27,4 @@ public class ItemService {
         .build();
         return iVo;
     }
-
 }

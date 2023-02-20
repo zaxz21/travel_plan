@@ -28,7 +28,7 @@ public class ItemAPIController {
 
     @Operation(summary = "준비물 조회")
     @GetMapping("/view")
-    public ResponseEntity<ItemViewVO> showItem(){
-        return new ResponseEntity<>(itemService.showItem(), HttpStatus.OK);
+    public ItemViewVO showItem(){
+        return itemService.showItem();
     }
 }

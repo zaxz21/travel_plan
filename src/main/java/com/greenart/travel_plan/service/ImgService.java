@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.greenart.travel_plan.entity.ImgInfoEntity;
 import com.greenart.travel_plan.repository.ImgInfoRepository;
+import com.greenart.travel_plan.vo.ImgVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -35,8 +36,8 @@ public class ImgService {
     @Value("${file.image.local}") String local_img_path;
     
     // 이미지 업로드
-    public Map<String, Object> addLocalImage(MultipartFile file) {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    public ImgVO addLocalImage(MultipartFile file) {
+        // Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
 
         Path folderLocation = null;
         folderLocation = Paths.get(local_img_path);
@@ -59,15 +60,25 @@ public class ImgService {
             e.printStackTrace();
         }
 
-        ImgInfoEntity ImgEntity = ImgInfoEntity.builder().iiFileName(saveFilename).build();
+        ImgInfoEntity ImgEntity = ImgInfoEntity.builder()
+            .iiFileName(saveFilename)
+            .build();
         ImgRepo.save(ImgEntity);
 
-        resultMap.put("image", ImgEntity);
-        resultMap.put("status", true);
-        resultMap.put("message", "파일이 저장되었습니다.");
-        resultMap.put("code", HttpStatus.OK);
+        ImgVO vo = ImgVO.builder()
+            .status(true)
+            .message("파일이 저장되었습니다.")
+            .code(HttpStatus.ACCEPTED)
+            .build();
+        System.out.println(vo);
+        return vo;
 
-        return resultMap;
+        // resultMap.put("image", ImgEntity);
+        // resultMap.put("status", true);
+        // resultMap.put("message", "파일이 저장되었습니다.");
+        // resultMap.put("code", HttpStatus.OK);
+// 
+        // return resultMap;
     }
 
     // 이미지 다운로드
