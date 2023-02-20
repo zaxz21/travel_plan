@@ -79,16 +79,27 @@ public class ImgService {
 
         // Path Pathsearchname = searchname;
         Path folderLocation = Paths.get(local_img_path);
-        Path targetFile = folderLocation.resolve(searchname);
+        
+        String[] split = searchname.split("\\_");
+        String firstName = split[split.length -2];
 
+        String[] split2 = searchname.split("\\.");
+        String ext = split2[split.length - 1];
+
+        String regiName = firstName + "." + ext;
+        // System.out.println(regiName);
+        
+        
+        Path targetFile = folderLocation.resolve(searchname);
         Resource r = null;
         String contentType = null;
-
+        
         try {
             r = new UrlResource(targetFile.toUri());
         } catch (Exception e) {
             e.printStackTrace(); }
-
+            
+            
         try {
             contentType = request.getServletContext().getMimeType(r.getFile().getAbsolutePath());
             if (contentType == null) { 
@@ -99,7 +110,7 @@ public class ImgService {
                 
         return ResponseEntity.ok().
         contentType(MediaType.parseMediaType(contentType)). 
-        header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
+        header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(regiName, "UTF-8") + "\"").
         body(r);
 
 
