@@ -22,7 +22,7 @@ public class ImgInfoEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema (description = "이미지 번호" , example = "1")
     @Column(name = "ii_seq") private Long iiSeq;
-    @Schema(description = "이미지 파일 이름")
+    @Schema(description = "이미지 파일 이름", example = "대구야경")
     @Column(name = "ii_file_name") private String iiFileName;
     
 }

@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.greenart.travel_plan.entity.ImgInfoEntity;
 import com.greenart.travel_plan.repository.ImgInfoRepository;
 import com.greenart.travel_plan.service.ImgService;
+import com.greenart.travel_plan.vo.ImgVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,11 +46,15 @@ public class ImgAPIController {
     // 이미지 업로드
     @Operation(summary = "이미지 업로드 기능")
     @PutMapping("/upload/local")
-    public ResponseEntity<Object> ImgUpload(
+    public ImgVO ImgUpload(
         @Parameter(name = "file",description = "이미지 원본 파일")  
         @RequestPart MultipartFile file) {
-        Map<String, Object> resultMap = imgService.addLocalImage(file);   
-        return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
+        
+            
+        return imgService.addLocalImage(file);
+
+        //Map<String, Object> resultMap = imgService.addLocalImage(file);   
+        //return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
 
     // 이미지 다운로드
