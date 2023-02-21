@@ -1,11 +1,14 @@
-package com.greenart.travel_plan.service;
+// package com.greenart.travel_plan.service;
 
-import org.springframework.stereotype.Service;
+// import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+// import com.greenart.travel_plan.repository.TravelScheduleRepository;
 
-@Service
-@RequiredArgsConstructor
-public class TravelScheduleService {
-    
-}
+// import lombok.RequiredArgsConstructor;
+
+// @Service
+// @RequiredArgsConstructor
+// public class TravelScheduleService {
+//     private final TravelScheduleRepository travelScheduleRepository;
+//     public 
+// }

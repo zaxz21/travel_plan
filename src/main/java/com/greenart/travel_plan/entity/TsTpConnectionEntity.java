@@ -1,10 +1,5 @@
 package com.greenart.travel_plan.entity;
 
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.hibernate.annotations.DynamicInsert;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,26 +23,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @DynamicInsert
-@Table(name="travel_term")
-public class TravelTermEntity {
+@Table(name="ts_tp_connection")
+public class TsTpConnectionEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema (description = "여행기간 번호", example ="1" )
-    @Column(name="tt_seq")        private Long tsSeq;
+    @Schema (description = "일정, 여행지 연결테이블 기본키", example = "1" )
+    @Column(name="ttc_seq") private Long ttcSeq;
 
-    @Schema (description = "여행 시작 날짜" )
-    @Column(name="tt_start_date") private Date ttStartDate;
-
-    @Schema (description = "여행 끝 날짜" )
-    @Column(name="tt_end_date")   private Date ttEndDate;
-
-    @Schema (description = "회원 번호" )
-    @JoinColumn(name="tt_mi_seq")     
+    @Schema (description = "일정seq" )
+    @JoinColumn(name="ttc_ts_seq")
     @ManyToOne(fetch = FetchType.LAZY)
-    private MemberInfoEntity member;
+    TravelScheduleEntity tsEntity;
 
-    @Schema (description = "여행일정seq" )
-    @OneToOne(mappedBy = "travelTerm")
-    private TravelScheduleEntity ttSchedule;
+    @Schema (description = "여행지seq" )
+    @JoinColumn(name="ttc_tp_seq")
+    @ManyToOne(fetch = FetchType.LAZY)
+    TravelPlaceEntity tpEntity;
 }
-
-

@@ -42,5 +42,4 @@ public class MemberInfoEntity {
     @Column(name = "mi_google") private String miGoogle;
     @Schema(description = "회원 이름" , example = "테스트")
     @Column(name = "mi_name") private String miName;
-    
 }

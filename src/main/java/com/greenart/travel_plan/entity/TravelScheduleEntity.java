@@ -1,7 +1,9 @@
 package com.greenart.travel_plan.entity;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.hibernate.annotations.DynamicInsert;
 
@@ -33,21 +35,19 @@ public class TravelScheduleEntity {
     @Schema (description = "여행일정 번호",example = "1" )
     @Column(name="ts_seq") private Long tsSeq;
 
+    @Schema (description = "여행시작일", example = "2023-01-01")
+    @Column(name="ts_start_date") private LocalDate tsStartDate;
+
+    @Schema (description = "여행종료일", example = "2023-01-05")
+    @Column(name="ts_end_date") private LocalDate tsEndDate;
+
     @Schema (description = "일정이름", example = "신나는 부산여행")
     @Column(name="ts_name") private String tsName;
 
-    @Schema (description = "여행시작날짜" )
-    @Column(name="ts_date") private LocalDateTime tsDate;
-
-    @Schema (description = "여행기간 번호" )
-    @JoinColumn(name="ts_tt_seq")
-    @OneToOne(fetch = FetchType.LAZY)
-    TravelTermEntity travelTerm;
-
-    @Schema (description = "여행지 번호" )
-    @JoinColumn(name="ts_tp_seq")
+    @Schema (description = "회원 seq" )
+    @JoinColumn(name="ts_mi_seq")
     @ManyToOne(fetch = FetchType.LAZY)
-    TravelPlaceEntity travelPlace;
+    MemberInfoEntity memberEntity;
 }
 
 // 나의 일정

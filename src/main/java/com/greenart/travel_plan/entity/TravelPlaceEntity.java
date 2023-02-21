@@ -43,9 +43,9 @@ public class TravelPlaceEntity {
     @Schema(description = "여행지 종류",example = "1:명소/2:호텔3:식당" )
     @Column(name = "tp_type") private Integer tpType;
 
-    @Schema(description = "여행일정")
-    @Column(name="ts_tp_seq")
-    @OneToMany(mappedBy = "travelPlace")
-    private List<TravelScheduleEntity> tpSchedule = new ArrayList<>();
+    // @Schema(description = "여행일정")
+    // @Column(name="ts_tp_seq")
+    // @OneToMany(mappedBy = "travelPlace")
+    // private List<TravelScheduleEntity> tpSchedule = new ArrayList<>();
     
 }
