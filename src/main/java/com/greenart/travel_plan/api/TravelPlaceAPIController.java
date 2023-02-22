@@ -30,7 +30,7 @@ public class TravelPlaceAPIController {
     @Operation(summary  = "타입 별 여행지 조회")
     @GetMapping("/place/type")
     public ResponseEntity<TravelReponseVO> getPlace(
-    @Parameter(name = "tptype",description = "각 타입 설명(1:명소/2:호텔3:식당)")    
+    @Parameter(name = "tptype",description = "각 타입 설명(1:식당 / 2:명소 / 3:숙박시설)")    
     Integer tptype,
     @Parameter(name = "pageable",hidden = true)
     @PageableDefault(size=5 ,sort="tpSeq" , direction = Sort.Direction.DESC) Pageable pageable ) {
