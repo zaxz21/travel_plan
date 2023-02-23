@@ -18,6 +18,7 @@ public class TravelPlaceVO {
     private Long tpZcSeq;
     private String tpImage;
     private Integer tpType;
+    private String tpCate;
 
     public TravelPlaceVO(TravelPlaceEntity travelPlaceEntity) {
         this.tpSeq = travelPlaceEntity.getTpSeq();
@@ -28,5 +29,6 @@ public class TravelPlaceVO {
         this.tpZcSeq = travelPlaceEntity.getTpZcSeq();
         this.tpImage = travelPlaceEntity.getTpImage();
         this.tpType = travelPlaceEntity.getTpType();
+        this.tpCate = travelPlaceEntity.getTpCate();
     }
 }
