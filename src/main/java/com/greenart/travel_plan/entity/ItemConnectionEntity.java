@@ -29,9 +29,9 @@ public class ItemConnectionEntity {
     @Schema(description = "준비물 연결 테이블 번호" , example = "1")
     @Column(name = "ic_seq")    private Long icSeq;
     @Schema(description = "상위 준비물 이름" , example = "세면/화장품")
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "ic_pi_seq" )  ParentItemEntity pitem;
+    @ManyToOne @JoinColumn(name = "ic_pi_seq" )  ParentItemEntity pitem;
     // @Column(name = "ic_pi_seq") private Long icPiseq;
     @Schema(description = "하위 준비물 이름" , example = "칫솔/치약")
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "ic_ci_seq" )  ChildItemEntity citem;
+    @ManyToOne @JoinColumn(name = "ic_ci_seq" )  ChildItemEntity citem;
     // @Column(name = "ic_ci_seq") private Long icCiseq;
 }

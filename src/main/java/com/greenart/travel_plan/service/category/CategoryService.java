@@ -223,28 +223,106 @@ public class CategoryService {
         }
     }
 
+    // @Transactional
+    // public void deleteCate(Long seq){
+    //     czRepo.deleteById(seq);
+    // }
+    // public DeleteCateVO deleteCate(DeleteCateVO data, Long seq){
+    //     ChildZoneEntity child = czRepo.findBySeq(seq);
+    //     if(child == null){
+    //         DeleteCateVO dVo = DeleteCateVO.builder()
+    //         .status(false)
+    //         .message("잘못된 지역 번호입니다.")
+    //         .code(HttpStatus.BAD_REQUEST)
+    //         .build();
+    //         return dVo;
+    // }
+    // else{
+    //     czRepo.deleteById(seq);
+    //         DeleteCateVO dVo = DeleteCateVO.builder()
+    //             .status(true)
+    //             .message("삭제되었습니다.")
+    //             .code(HttpStatus.ACCEPTED)
+    //             .build();
+    //             return dVo;
+    //     }
+    // }
+
     @Transactional
-    public void deleteCate(Long seq){
-        czRepo.deleteById(seq);
-    }
-    public DeleteCateVO deleteCate(DeleteCateVO data, Long seq){
-        ChildZoneEntity child = czRepo.findBySeq(seq);
-        if(child == null){
-            DeleteCateVO dVo = DeleteCateVO.builder()
-            .status(false)
-            .message("잘못된 지역 번호입니다.")
-            .code(HttpStatus.BAD_REQUEST)
-            .build();
-            return dVo;
-    }
-    else{
-        czRepo.deleteById(seq);
-            DeleteCateVO dVo = DeleteCateVO.builder()
+    public DeleteCateVO deleteCate(DeleteCateVO data, Long seq, String type) {
+        if(type.equals("pz")) {
+            ParentZoneEntity pzEntity = pzRepo.findZByPzSeq(seq);
+            ZoneConnectionEntity zone = zcRepo.findAllByParent(pzEntity);
+            ChildZoneEntity child = zone.getChild();
+
+            if(pzEntity == null){
+                DeleteCateVO dVo = DeleteCateVO.builder()
+                .status(false)
+                .message("잘못된 번호입니다.")
+                .code(HttpStatus.BAD_REQUEST)
+                .build();
+                return dVo;
+                }
+                zcRepo.deleteBySeq(zone.getSeq());
+                czRepo.deleteBySeq(child.getSeq());
+                pzRepo.deleteByPzSeq(seq);
+
+                DeleteCateVO dVo = DeleteCateVO.builder()
                 .status(true)
                 .message("삭제되었습니다.")
                 .code(HttpStatus.ACCEPTED)
                 .build();
                 return dVo;
-        }
+                }
+                else if(type.equals("cz")){
+                    ChildZoneEntity child = czRepo.findBySeq(seq);
+                    ZoneConnectionEntity zone = zcRepo.findAllByChild(child);
+
+                    if(child == null){
+                        DeleteCateVO dVo = DeleteCateVO.builder()
+                                .status(false)
+                                .message("잘못된 번호입니다.")
+                                .code(HttpStatus.BAD_REQUEST)
+                                .build();
+                                return dVo;
+                    }
+                    zcRepo.deleteBySeq(zone.getSeq());
+                    czRepo.deleteBySeq(seq);
+
+                    DeleteCateVO dVo = DeleteCateVO.builder()
+                    .status(true)
+                    .message("삭제되었습니다.")
+                    .code(HttpStatus.ACCEPTED)
+                    .build();
+                    return dVo;
+                }
+                else{
+                    DeleteCateVO dVo = DeleteCateVO.builder()
+                    .status(false)
+                    .message("pz 번호 또는 cz 번호를 입력하세요.")
+                    .code(HttpStatus.BAD_REQUEST)
+                    .build();
+                    return dVo;
+                }
+    //     ChildZoneEntity child = czRepo.findBySeq(seq);
+    //     ZoneConnectionEntity zone = zcRepo.findAllByChild(child);
+
+    //     if(child == null) {
+    //         DeleteCateVO dVo = DeleteCateVO.builder()
+    //         .status(false)
+    //         .message("잘못된 번호입니다.")
+    //         .code(HttpStatus.BAD_REQUEST)
+    //         .build();
+    //         return dVo;
+    //     }
+    //     zcRepo.deleteBySeq(zone.getSeq());
+    //     czRepo.deleteBySeq(seq);
+
+    //     DeleteCateVO dVo = DeleteCateVO.builder()
+    //         .status(true)
+    //         .message("삭제되었습니다.")
+    //         .code(HttpStatus.ACCEPTED)
+    //         .build();
+    //         return dVo;
     }
 }

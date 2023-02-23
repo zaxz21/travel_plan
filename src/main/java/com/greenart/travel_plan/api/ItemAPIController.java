@@ -56,8 +56,9 @@ public class ItemAPIController {
 
     // 준비물 삭제
     @Operation(summary = "준비물 삭제")
-    @DeleteMapping("/delete/{seq}")
-    public ResponseEntity<DeleteItemVO> deleteCate(DeleteItemVO data, @PathVariable Long seq){
-        return new ResponseEntity<>(itemService.deleteCate(data,seq), HttpStatus.OK);
+    @DeleteMapping("/delete/{type}/{seq}")
+    public ResponseEntity<DeleteItemVO> deleteItem(DeleteItemVO data, @PathVariable Long seq, @PathVariable String type) {
+        return new ResponseEntity<>(itemService.deleteItem(data, seq, type), HttpStatus.OK);
     }
+
 }

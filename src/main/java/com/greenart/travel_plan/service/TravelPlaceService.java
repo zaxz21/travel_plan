@@ -24,22 +24,22 @@ public class TravelPlaceService {
     public TravelReponseVO SearchTravlePlace (String keyword, Pageable pageable) {
         if(keyword == null) {keyword = "";}
         Page<TravelLikeCountEntity> list = travelLikeCountRepository.findByTpNameContains(keyword, pageable);
-         TravelReponseVO response = TravelReponseVO.builder().list(list.getContent()).totalPage(list.getTotalPages())
-         .total(list.getTotalElements()).currentPage(list.getNumber()).build();
-         return response;
+        TravelReponseVO response = TravelReponseVO.builder().list(list.getContent()).totalPage(list.getTotalPages())
+        .total(list.getTotalElements()).currentPage(list.getNumber()).build();
+        return response;
     
     }
     public TravelReponseVO SearchTravleType(Pageable pageable, Integer tptype){
         Page<TravelLikeCountEntity> list = travelLikeCountRepository.findByTpType(tptype,pageable);
         
-       if(tptype == null ) {
-           TravelReponseVO response = TravelReponseVO.builder().message("검색어를 입력해주세요").build();
-           return response;
+        if(tptype == null ) {
+            TravelReponseVO response = TravelReponseVO.builder().message("검색어를 입력해주세요").build();
+            return response;
         }
         else{
-             TravelReponseVO response = TravelReponseVO.builder().list(list.getContent()).totalPage(list.getTotalPages()).
-             total(list.getTotalElements()).currentPage(list.getNumber()).build();
-             return response;
+            TravelReponseVO response = TravelReponseVO.builder().list(list.getContent()).totalPage(list.getTotalPages()).
+            total(list.getTotalElements()).currentPage(list.getNumber()).build();
+            return response;
         }
     }
     

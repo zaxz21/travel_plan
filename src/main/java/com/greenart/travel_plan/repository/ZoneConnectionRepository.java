@@ -12,7 +12,10 @@ import com.greenart.travel_plan.entity.ParentZoneEntity;
 import com.greenart.travel_plan.entity.ZoneConnectionEntity;
 import com.greenart.travel_plan.vo.category.ParentZoneVO;
 
-public interface ZoneConnectionRepository extends JpaRepository<ZoneConnectionEntity, Long>{
+public interface ZoneConnectionRepository extends JpaRepository<ZoneConnectionEntity, Long> {
     public List<ZoneConnectionEntity> findByParent(ParentZoneEntity seq);
     public List<ZoneConnectionEntity> findByChild(ChildZoneEntity child );
+    ZoneConnectionEntity findAllByChild(ChildZoneEntity child);
+    ZoneConnectionEntity findAllByParent(ParentZoneEntity parent);
+    Long deleteBySeq(Long seq);
 }
