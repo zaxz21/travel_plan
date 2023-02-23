@@ -12,6 +12,7 @@ public interface TravelLikeCountRepository extends JpaRepository <TravelLikeCoun
     public List<TravelLikeCountEntity> findByTpSeq(Long tpseq);
     public Page<TravelLikeCountEntity> findByTpType (Integer tptype,Pageable pageable);
     public Page<TravelLikeCountEntity> findByTpNameContains(String keyword, Pageable pageable);
+    public Page<TravelLikeCountEntity> findByTpZcSeq(Long tpzcseq, Pageable pageable);
     
     
 }

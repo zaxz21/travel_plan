@@ -42,5 +42,13 @@ public class TravelPlaceService {
             return response;
         }
     }
+     public TravelReponseVO zonePlace(Pageable pageable, Long tpzcseq){
+        Page<TravelLikeCountEntity> list = travelLikeCountRepository.findByTpZcSeq(tpzcseq, pageable);
+        
+             TravelReponseVO response = TravelReponseVO.builder().list(list.getContent()).totalPage(list.getTotalPages()).
+             total(list.getTotalElements()).currentPage(list.getNumber()).build();
+             return response;
+        
+    }
     
 }

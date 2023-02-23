@@ -25,10 +25,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-@Data
+import lombok.Setter;
+// @Data
+@Getter
+@Setter
 @Entity
 @Table(name = "zone_connection")
-@Getter
+// @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ZoneConnectionEntity {

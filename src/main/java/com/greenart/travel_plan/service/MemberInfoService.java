@@ -3,6 +3,7 @@ package com.greenart.travel_plan.service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.member.MemberAddVo;
 import com.greenart.travel_plan.vo.member.MemberInfoVO;
 import com.greenart.travel_plan.vo.member.MemberLoginVO;
+import com.greenart.travel_plan.vo.member.MemberUpdateVO;
 
 import lombok.RequiredArgsConstructor;
 @Service
@@ -116,6 +118,69 @@ public class MemberInfoService {
             code(HttpStatus.OK).build();
             return add;
     }
+}
+//  public MemberAddReponseVO deleteMember (Long miseq) {
+//      MemberInfoEntity User = memberInfoRepository.findByMiSeq(miseq);
+//     if(User == null) {
+//             MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("해당 회원이 존재하지 않습니다.").
+//             code(HttpStatus.BAD_REQUEST).build();
+//             return add;
+//     }
+//     else{
+//         User.setMiStatus(2);
+//         memberInfoRepository.save(User);
+//         // memberInfoRepository.delete(User);
+//                MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("회원탈퇴가 완료되었습니다.").
+//             code(HttpStatus.OK).build();
+//             return add;
+//     }
+// }
+public MemberAddReponseVO updateMember(MemberUpdateVO data, Long miseq){
+
+ Optional <MemberInfoEntity> entity =  memberInfoRepository.findById(miseq);
+      if (data.getMiEmail() == null || data.getMiEmail().equals("")) {
+            MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("이메일을 입력해주세요").code(HttpStatus.BAD_REQUEST).build();
+               return add;
+        }
+        else if(memberInfoRepository.countByMiEmail(data.getMiEmail()) !=0){
+            MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message(data.getMiEmail()+"은/는 이미 사용중입니다.").
+            code(HttpStatus.BAD_REQUEST).build();
+               return add;
+        
+        }
+        else if (data.getMiPwd() == null || data.getMiPwd().equals("")) {
+                  MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("비밀번호를 입력해주세요").
+                code(HttpStatus.BAD_REQUEST).build();
+               return add;
+        }
+        else if(data.getMiPwd().length()<8) {
+                   MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("비밀번호는 8자리 이상입니다.").
+                   code(HttpStatus.BAD_REQUEST).build();
+                   return add;
+    }
+        
+        else if (data.getMiNickname() == null || data.getMiNickname().equals("")) {
+              MemberAddReponseVO add = MemberAddReponseVO.builder().status(false).message("이름을 입력해주세요").
+            code(HttpStatus.BAD_REQUEST).build();
+               return add;
+        }
+        else{
+             try{
+            String encPwd = MbAESAlgorithm.Encrypt(data.getMiPwd());
+               MemberInfoEntity e = entity.get();
+               e.setMiPwd(encPwd);
+            }
+             catch (Exception e) {e.printStackTrace();}
+             MemberInfoEntity e = entity.get();
+             e.setMiEmail(data.getMiEmail());
+             e.setMiName(data.getMiName());
+             e.setMiNickname(data.getMiNickname());
+             e.setMiPhone(data.getMiPhone());
+             memberInfoRepository.save(e);
+             MemberAddReponseVO add = MemberAddReponseVO.builder().status(true).message("수정이 완료되었습니다.").build();
+             return add; 
+        }
+    
 }
   
     
