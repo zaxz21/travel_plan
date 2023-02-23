@@ -45,5 +45,16 @@ public class TravelPlaceAPIController {
     @PageableDefault(size=5 ,sort="likeplace" , direction = Sort.Direction.DESC) Pageable pageable ) {
         return new ResponseEntity<>(travelPlaceService.SearchTravlePlace(keyword,pageable),HttpStatus.OK);
     }
+
+     @Operation(summary  = "지역별 여행지 출력")
+    @GetMapping("/zone")
+    public ResponseEntity<TravelReponseVO> zonePlace(
+    @Parameter(name = "tpzcseq",
+    description = "1:가평/2:서울/3:수원/4:인천/5:강릉/6:영월/7:춘천/8:대전/9:제천/10:군산/11:남원/12:목포/13:여수/14:전주/15:거제,통영/16:경주/17:대구/18:부산/19:안동/20:울릉도/21:포항/22:제주")    
+     Long tpzcseq,
+    @Parameter(name = "page", hidden = true)
+    @PageableDefault(size=5 ,sort="tpSeq" , direction = Sort.Direction.DESC) Pageable pageable ) {
+        return new ResponseEntity<>(travelPlaceService.zonePlace(pageable, tpzcseq),HttpStatus.OK);
+    }
     
 }

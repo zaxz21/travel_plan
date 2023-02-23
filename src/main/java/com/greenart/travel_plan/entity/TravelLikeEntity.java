@@ -18,9 +18,13 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+// @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -40,19 +44,7 @@ public class TravelLikeEntity {
     @OneToOne @JoinColumn(name = "tl_mi_seq") MemberInfoEntity member;
     // @Column(name="tl_mi_seq")   private Long tlMiSeq;
 
-    public void setTravel(TravelPlaceEntity travel) {
-        this.travel = travel;
-    }
-    public void setMember(MemberInfoEntity member) {
-        this.member = member;
-    }
-    public static TravelLikeEntity LikeEntity(TravelPlaceEntity travel,MemberInfoEntity member ){
-        TravelLikeEntity travellike = new TravelLikeEntity();
-        travellike.setTravel(travel);
-        travellike.setMember(member);
 
-        return travellike;
-    }
     
     // public TravelLikeEntity(TravelLikeEntity entity) {
     //     this.tlSeq = entity.getTlSeq();

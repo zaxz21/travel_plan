@@ -25,10 +25,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-@Data
+import lombok.Setter;
+// @Data
+@Getter
+@Setter
 @Entity
 @Table(name = "zone_connection")
-@Getter
+// @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ZoneConnectionEntity {
@@ -36,10 +39,10 @@ public class ZoneConnectionEntity {
     @Schema  (description = "지역 연결 테이블 번호" ,example = "1" )
     @Column(name = "zc_seq") private Long seq;
     @Schema  (description = "상위 지역" ,example = "서울/경기" )
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "zc_pz_seq" )  ParentZoneEntity parent;
+    @ManyToOne @JoinColumn(name = "zc_pz_seq" )  ParentZoneEntity parent;
     // @Column(name = "zc_pz_seq") private Long pzSeq;
     @Schema  (description = "하위 지역" ,example = "가평" )
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "zc_cz_seq" )  ChildZoneEntity child;
+    @ManyToOne @JoinColumn(name = "zc_cz_seq" )  ChildZoneEntity child;
     // @Column(name = "zc_cz_seq") private Long czSeq;
     
 }
