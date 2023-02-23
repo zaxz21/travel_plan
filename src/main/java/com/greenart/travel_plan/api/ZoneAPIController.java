@@ -36,6 +36,7 @@ import io.micrometer.common.lang.Nullable;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 
 @Tag(name = "지역 카테고리", description = "지역 카테고리 조회")
 @RestController

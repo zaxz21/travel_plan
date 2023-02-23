@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChildItemEntity {
+public class  ChildItemEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "하위 준비물 번호" , example = "1")
     @Column(name = "ci_seq")    private Long   ciSeq;
