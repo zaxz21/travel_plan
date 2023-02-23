@@ -8,4 +8,6 @@ import java.util.List;
 public interface ParentZoneRepository extends JpaRepository<ParentZoneEntity, Long>{
     List<ParentZoneEntity>findAllByPzSeq(Long seq);
     public ParentZoneEntity findByNameContains(String name);
+    ParentZoneEntity findZByPzSeq(Long seq);
+    Long deleteByPzSeq(Long seq);
 }

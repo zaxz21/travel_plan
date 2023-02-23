@@ -1,4 +1,4 @@
- package com.greenart.travel_plan.service;
+package com.greenart.travel_plan.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,7 @@ public class ItemService {
         return iVo;
     }
 
-    public AddItemVO addItem(AddItemVO data){
+    public AddItemVO addItem(AddItemVO data) {
         ParentItemEntity piz = piRepo.findByPiNameContains(data.getPiName());
         if(piz == null){
             ParentItemEntity entity = ParentItemEntity.builder()
@@ -71,9 +71,9 @@ public class ItemService {
         }
     }
 
-    public UpdateItemVO updateItem(UpdateItemVO data, Long seq){
+    public UpdateItemVO updateItem(UpdateItemVO data, Long seq) {
         ChildItemEntity child = ciRepo.findByCiSeq(seq);
-        if(child == null){
+        if(child == null) {
             UpdateItemVO uVo = UpdateItemVO.builder()
             .status(false)
             .message("잘못된 번호입니다.")
@@ -92,7 +92,6 @@ public class ItemService {
                 .ciName(data.getCiName())
                 .build();
                 return uVo;
-    
             }
             else{
                 UpdateItemVO uVo = UpdateItemVO.builder()
@@ -105,28 +104,87 @@ public class ItemService {
             }
         }
 
+    // @Transactional
+    // public void deleteItem(Long seq) {
+    //     icRepo.deleteById(seq);
+    // }
+    // public DeleteItemVO deleteItem(DeleteItemVO data, Long seq) {
+    //         ChildItemEntity child = ciRepo.findByCiSeq(seq);
+    //     if(child == null) {
+    //         DeleteItemVO dVo = DeleteItemVO.builder()
+    //         .status(false)
+    //         .message("잘못된 번호입니다.")
+    //         .code(HttpStatus.BAD_REQUEST)
+    //         .build();
+    //         return dVo;
+    //     }
+    //     else {
+    //         ciRepo.deleteById(seq);
+    //         DeleteItemVO dVo = DeleteItemVO.builder()
+    //         .status(true)
+    //         .message("삭제되었습니다.")
+    //         .code(HttpStatus.ACCEPTED)
+    //         .build();
+    //         return dVo;
+    //     }
+    // }
     @Transactional
-    public void deleteCate(Long seq){
-        ciRepo.deleteById(seq);
-    }
-    public DeleteItemVO deleteCate(DeleteItemVO data, Long seq){
-        ChildItemEntity child = ciRepo.findByCiSeq(seq);
-        if(child == null){
-            DeleteItemVO dVo = DeleteItemVO.builder()
-            .status(false)
-            .message("잘못된 번호입니다.")
-            .code(HttpStatus.BAD_REQUEST)
-            .build();
-            return dVo;
-    }
-    else{
-        ciRepo.deleteById(seq);
+    public DeleteItemVO deleteItem(DeleteItemVO data, Long seq, String type) {
+        if(type.equals("pi")) {
+            ParentItemEntity pEntity = piRepo.findByPiSeq(seq);
+            ItemConnectionEntity itEntity = icRepo.findBypitem(pEntity);
+            ChildItemEntity cEntity = itEntity.getCitem();
+            
+            if(pEntity == null) {
+                DeleteItemVO dVo = DeleteItemVO.builder()
+                .status(false)
+                .message("잘못된 번호입니다.")
+                .code(HttpStatus.BAD_REQUEST)
+                .build();
+                return dVo;
+            }
+            icRepo.deleteByIcSeq(itEntity.getIcSeq());
+            ciRepo.deleteByCiSeq(cEntity.getCiSeq());
+            piRepo.deleteByPiSeq(seq);
+    
             DeleteItemVO dVo = DeleteItemVO.builder()
                 .status(true)
                 .message("삭제되었습니다.")
                 .code(HttpStatus.ACCEPTED)
                 .build();
                 return dVo;
+            
         }
+        else if(type.equals("ci")){
+            ChildItemEntity chEntity = ciRepo.findByCiSeq(seq);
+            ItemConnectionEntity itEntity = icRepo.findBycitem(chEntity);
+    
+            if(chEntity == null) {
+                DeleteItemVO dVo = DeleteItemVO.builder()
+                .status(false)
+                .message("잘못된 번호입니다.")
+                .code(HttpStatus.BAD_REQUEST)
+                .build();
+                return dVo;
+            }
+            icRepo.deleteByIcSeq(itEntity.getIcSeq());
+            ciRepo.deleteByCiSeq(seq);
+    
+            DeleteItemVO dVo = DeleteItemVO.builder()
+                .status(true)
+                .message("삭제되었습니다.")
+                .code(HttpStatus.ACCEPTED)
+                .build();
+                return dVo;
+            }
+        else {
+            DeleteItemVO dVo = DeleteItemVO.builder()
+                .status(false)
+                .message("pi번호 또는 ci번호를 입력하세요")
+                .code(HttpStatus.BAD_REQUEST)
+                .build();
+                return dVo;
+        }
+
     }
 }

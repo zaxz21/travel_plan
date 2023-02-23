@@ -6,4 +6,8 @@ import com.greenart.travel_plan.entity.ChildItemEntity;
 
 public interface ChildItemRepository extends JpaRepository<ChildItemEntity, Long>{
     public ChildItemEntity findByCiSeq(Long seq);
+    Long deleteByCiSeq(Long ciSeq);
+    
+
+    
 }

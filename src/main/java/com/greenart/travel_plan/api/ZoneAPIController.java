@@ -84,8 +84,8 @@ public class ZoneAPIController {
 
     // 삭제
     @Operation(summary = "하위 지역 삭제")
-    @DeleteMapping("/delete/{seq}")
-    public ResponseEntity<DeleteCateVO> deleteCate(DeleteCateVO data, @PathVariable Long seq){
-        return new ResponseEntity<>(cateService.deleteCate(data,seq), HttpStatus.OK);
+    @DeleteMapping("/delete/{type}/{seq}")
+    public ResponseEntity<DeleteCateVO> deleteCate(DeleteCateVO data, @PathVariable Long seq, @PathVariable String type){
+        return new ResponseEntity<>(cateService.deleteCate(data, seq, type), HttpStatus.OK);
     }
 }
