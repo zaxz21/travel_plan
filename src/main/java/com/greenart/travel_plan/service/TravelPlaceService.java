@@ -42,13 +42,13 @@ public class TravelPlaceService {
             return response;
         }
     }
-     public TravelReponseVO zonePlace(Pageable pageable, Long tpzcseq){
-        Page<TravelLikeCountEntity> list = travelLikeCountRepository.findByTpZcSeq(tpzcseq, pageable);
+     public TravelReponseVO zonePlace(Long tpzcseq){
+        List<TravelLikeCountEntity> list = travelLikeCountRepository.findByTpZcSeq(tpzcseq);
         
-             TravelReponseVO response = TravelReponseVO.builder().list(list.getContent()).totalPage(list.getTotalPages()).
-             total(list.getTotalElements()).currentPage(list.getNumber()).build();
+             TravelReponseVO response = TravelReponseVO.builder().list(list).build();
              return response;
         
     }
+    
     
 }

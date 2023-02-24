@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -81,5 +82,15 @@ public class TravelLikeAPIController {
         @RequestParam Long miseq){
         return new ResponseEntity<>(travelLikeService.travelLike(miseq),HttpStatus.OK);
     }
-    
+
+     @Operation(summary = "여행지 좋아요 취소기능")
+      @DeleteMapping ("/like/cancel")
+        public ResponseEntity <TravelCountReponseVO> cancelTravelLike (
+        @Parameter(name = "tpseq",description = "클릭하는 여행지 번호")  
+        @RequestParam Long tpseq,
+        @Parameter(name = "miseq",description = "로그인한 회원 번호")
+        @RequestParam Long miseq ) {
+        return new ResponseEntity<>(travelLikeService.updateLike(tpseq, miseq),travelLikeService.updateLike(tpseq, miseq).getCode());
+        }
+
 }
