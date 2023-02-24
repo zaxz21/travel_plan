@@ -304,25 +304,25 @@ public class CategoryService {
                     .build();
                     return dVo;
                 }
-    //     ChildZoneEntity child = czRepo.findBySeq(seq);
-    //     ZoneConnectionEntity zone = zcRepo.findAllByChild(child);
+        // ChildZoneEntity child = czRepo.findBySeq(seq);
+        // ZoneConnectionEntity zone = zcRepo.findAllByChild(child);
 
-    //     if(child == null) {
-    //         DeleteCateVO dVo = DeleteCateVO.builder()
-    //         .status(false)
-    //         .message("잘못된 번호입니다.")
-    //         .code(HttpStatus.BAD_REQUEST)
-    //         .build();
-    //         return dVo;
-    //     }
-    //     zcRepo.deleteBySeq(zone.getSeq());
-    //     czRepo.deleteBySeq(seq);
+        // if(child == null) {
+        //     DeleteCateVO dVo = DeleteCateVO.builder()
+        //     .status(false)
+        //     .message("잘못된 번호입니다.")
+        //     .code(HttpStatus.BAD_REQUEST)
+        //     .build();
+        //     return dVo;
+        // }
+        // zcRepo.deleteBySeq(zone.getSeq());
+        // czRepo.deleteBySeq(seq);
 
-    //     DeleteCateVO dVo = DeleteCateVO.builder()
-    //         .status(true)
-    //         .message("삭제되었습니다.")
-    //         .code(HttpStatus.ACCEPTED)
-    //         .build();
-    //         return dVo;
+        // DeleteCateVO dVo = DeleteCateVO.builder()
+        //     .status(true)
+        //     .message("삭제되었습니다.")
+        //     .code(HttpStatus.ACCEPTED)
+        //     .build();
+        //     return dVo;
     }
 }
