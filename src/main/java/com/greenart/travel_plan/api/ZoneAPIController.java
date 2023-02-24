@@ -77,16 +77,16 @@ public class ZoneAPIController {
     }
 
     // 수정
-    @Operation(summary = "하위 지역 수정")
-    @PatchMapping("/update/{seq}")
-    public ResponseEntity<UpdateCateVO> updateCate(UpdateCateVO data, @PathVariable Long seq) {
-        return new ResponseEntity<>(cateService.updateCategory(data, seq), HttpStatus.OK);
+    @Operation(summary = "지역 수정")
+    @PatchMapping("/update/{type}/{seq}")
+    public ResponseEntity<UpdateCateVO> updateCate(UpdateCateVO data, @PathVariable String type, @Parameter(name = "seq", description = "수정할 카테고리 번호") @PathVariable Long seq) {
+        return new ResponseEntity<>(cateService.updateCategory(data, seq, type), HttpStatus.OK);
     }
 
     // 삭제
-    @Operation(summary = "하위 지역 삭제")
+    @Operation(summary = "지역 삭제")
     @DeleteMapping("/delete/{type}/{seq}")
-    public ResponseEntity<DeleteCateVO> deleteCate(DeleteCateVO data, @PathVariable Long seq, @PathVariable String type){
+    public ResponseEntity<DeleteCateVO> deleteCate(DeleteCateVO data, @Parameter(name = "type", description = "상위:pz / 하위: cz") @PathVariable String type, @Parameter(name = "seq", description = "삭제할 카테고리 번호")@PathVariable Long seq){
         return new ResponseEntity<>(cateService.deleteCate(data, seq, type), HttpStatus.OK);
     }
 }

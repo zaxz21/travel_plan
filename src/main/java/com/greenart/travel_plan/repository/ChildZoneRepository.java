@@ -10,6 +10,7 @@ import com.greenart.travel_plan.entity.ChildZoneEntity;
 
 public interface ChildZoneRepository extends JpaRepository<ChildZoneEntity, Long>{
     public ChildZoneEntity findBySeq(Long seq);
+    List<ChildZoneEntity> findAllBySeq(Long seq);
     public ChildZoneEntity findByNameContains(String keyword);
     Long deleteBySeq(Long seq);
 }

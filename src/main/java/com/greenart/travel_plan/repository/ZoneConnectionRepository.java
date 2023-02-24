@@ -16,6 +16,6 @@ public interface ZoneConnectionRepository extends JpaRepository<ZoneConnectionEn
     public List<ZoneConnectionEntity> findByParent(ParentZoneEntity seq);
     public List<ZoneConnectionEntity> findByChild(ChildZoneEntity child );
     ZoneConnectionEntity findAllByChild(ChildZoneEntity child);
-    ZoneConnectionEntity findAllByParent(ParentZoneEntity parent);
+    List<ZoneConnectionEntity> findAllByParent(ParentZoneEntity parent);
     Long deleteBySeq(Long seq);
 }
