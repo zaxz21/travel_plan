@@ -42,8 +42,9 @@ public class GsonAPIController {
                 "&" + URLEncoder.encode("MobileApp", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("travelplan", StandardCharsets.UTF_8) +
                 "&" + URLEncoder.encode("_type", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("json", StandardCharsets.UTF_8) +
                 "&" + URLEncoder.encode("listYN", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("Y", StandardCharsets.UTF_8) +
-                "&" + URLEncoder.encode("areaCode", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("35", StandardCharsets.UTF_8) +
-                "&" + URLEncoder.encode("sigunguCode", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("2", StandardCharsets.UTF_8);
+                "&" + URLEncoder.encode("areaCode", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("3", StandardCharsets.UTF_8);
+                // "&" + URLEncoder.encode("areaCode", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("32", StandardCharsets.UTF_8) +
+                // "&" + URLEncoder.encode("sigunguCode", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("13", StandardCharsets.UTF_8);
         URL url = new URL(urlBuilder);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
