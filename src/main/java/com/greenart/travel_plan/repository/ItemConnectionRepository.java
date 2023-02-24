@@ -12,14 +12,11 @@ import jakarta.transaction.Transactional;
 
 @Transactional
 public interface ItemConnectionRepository extends JpaRepository<ItemConnectionEntity, Long>{
-    public ItemConnectionEntity findByIcSeq(Long seq);
     List<ItemConnectionEntity> findByPitem(ParentItemEntity pitem);
-
     ItemConnectionEntity findBypitem(ParentItemEntity pitem);
     ItemConnectionEntity findBycitem(ChildItemEntity citem);
-
-    
     ItemConnectionEntity deleteByCitem(ChildItemEntity citem);
-
+    List<ItemConnectionEntity> findByCitem(ChildItemEntity citem);
+    ItemConnectionEntity findAllBypitem(ItemConnectionEntity icEntity);
     Long deleteByIcSeq(Long icSeq);
 }

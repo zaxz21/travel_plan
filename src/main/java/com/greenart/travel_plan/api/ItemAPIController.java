@@ -22,6 +22,7 @@ import com.greenart.travel_plan.vo.item.ItemViewVO;
 import com.greenart.travel_plan.vo.item.UpdateItemVO;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "준비물 카테고리", description = "준비물 상세 조회")
@@ -49,15 +50,17 @@ public class ItemAPIController {
 
     // 준비물 수정
     @Operation(summary = "준비물 수정")
-    @PatchMapping("/update/{seq}")
-    public ResponseEntity<UpdateItemVO> updateItem(UpdateItemVO data, @PathVariable Long seq) {
-        return new ResponseEntity<>(itemService.updateItem(data, seq), HttpStatus.OK);
+    @PatchMapping("/update/{type}/{seq}")
+    public ResponseEntity<UpdateItemVO> updateItem(UpdateItemVO data, @Parameter(name = "type", description = "상위:pi / 하위: ci") @PathVariable String type,
+                                                                        @Parameter(name = "seq", description = "수정할 준비물 번호") @PathVariable Long seq) {
+        return new ResponseEntity<>(itemService.updateItem(data, seq, type), HttpStatus.OK);
     }
 
     // 준비물 삭제
     @Operation(summary = "준비물 삭제")
     @DeleteMapping("/delete/{type}/{seq}")
-    public ResponseEntity<DeleteItemVO> deleteItem(DeleteItemVO data, @PathVariable Long seq, @PathVariable String type) {
+    public ResponseEntity<DeleteItemVO> deleteItem(DeleteItemVO data,  @Parameter(name = "type", description = "상위:pi / 하위: ci")@PathVariable String type,
+                                                                        @Parameter(name = "seq", description = "삭제할 준비물 번호") @PathVariable Long seq) {
         return new ResponseEntity<>(itemService.deleteItem(data, seq, type), HttpStatus.OK);
     }
 

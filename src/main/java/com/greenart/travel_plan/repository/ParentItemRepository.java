@@ -1,5 +1,7 @@
 package com.greenart.travel_plan.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.greenart.travel_plan.entity.ItemConnectionEntity;
@@ -10,5 +12,4 @@ public interface ParentItemRepository extends JpaRepository<ParentItemEntity, Lo
     // Long findByPiSeq(ParentItemEntity pEntity);
     ParentItemEntity findByPiSeq(Long seq);
     Long deleteByPiSeq(Long seq);
-    
 }

@@ -1,5 +1,6 @@
 package com.greenart.travel_plan.service.category;
 
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -148,9 +149,12 @@ public class CategoryService {
         .status(true)
         .message("추가하였습니다.")
         .code(HttpStatus.ACCEPTED)
-        // .pzName(data.getPzName())
-        // .czName(data.getCzName())
-        // .czExplanation(data.getCzExplanation())
+        .pzName(data.getPzName())
+        .czName(data.getCzName())
+        .czExplanation(data.getCzExplanation())
+        .czEngname(data.getCzEngname())
+        .czLatitude(data.getCzLatitude())
+        .czLongitude(data.getCzLongitude())
         .build();
         return aVo;
         }
@@ -184,35 +188,65 @@ public class CategoryService {
 
     }
     
-    public UpdateCateVO updateCategory(UpdateCateVO data, Long seq){
-    ChildZoneEntity child = czRepo.findBySeq(seq);
-    // .findById(seq).get();
-    if(child == null){
-        UpdateCateVO uVo = UpdateCateVO.builder()
-        .status(false)
-        .message("잘못된 지역 번호입니다.")
-        .code(HttpStatus.BAD_REQUEST)
-        .build();
-        return uVo;
-    }
-    else{
-        if(data.getCzName() != null && data.getCzExplanation() != null){
-            child.setName(data.getCzName());
-            child.setExplanation(data.getCzExplanation());
-            child.setEngname(data.getCzEngName());
-            czRepo.save(child);
+    public UpdateCateVO updateCategory(UpdateCateVO data, Long seq, String type){
+        ParentZoneEntity parent = pzRepo.findByPzSeq(seq);
+        ChildZoneEntity child = czRepo.findBySeq(seq);
+    if(type.equals("pz")){
+        if(parent == null){
             UpdateCateVO uVo = UpdateCateVO.builder()
-            .status(true)
-            .message("수정하였습니다.")
-            .code(HttpStatus.ACCEPTED)
-            .czName(data.getCzName())
-            .czEngName(data.getCzEngName())
-            .czExplanation(data.getCzExplanation())
+            .status(false)
+            .message("잘못된 지역 번호입니다.")
+            .code(HttpStatus.BAD_REQUEST)
             .build();
             return uVo;
-
         }
         else{
+            if(data.getPzName() != null){
+                parent.setName(data.getPzName());
+                pzRepo.save(parent);
+                UpdateCateVO uVo = UpdateCateVO.builder()
+                .status(true)
+                .message("수정하였습니다.")
+                .code(HttpStatus.ACCEPTED)
+                .pzName(data.getPzName())
+                .build();
+                return uVo;
+            }
+            else{
+                UpdateCateVO uVo = UpdateCateVO.builder()
+                .status(false)
+                .message("이름과 설명을 입력해주세요.")
+                .code(HttpStatus.BAD_REQUEST)
+                .build();
+                return uVo;
+            }
+        }
+    }else if(type.equals("cz")){
+        if(child == null){
+            UpdateCateVO uVo = UpdateCateVO.builder()
+            .status(false)
+            .message("잘못된 지역 번호입니다.")
+            .code(HttpStatus.BAD_REQUEST)
+            .build();
+            return uVo;
+        }
+        else{
+            if(data.getCzName() != null && data.getCzExplanation() != null){
+                child.setName(data.getCzName());
+                child.setExplanation(data.getCzExplanation());
+                child.setEngname(data.getCzEngName());
+                czRepo.save(child);
+                UpdateCateVO uVo = UpdateCateVO.builder()
+                .status(true)
+                .message("수정하였습니다.")
+                .code(HttpStatus.ACCEPTED)
+                .czName(data.getCzName())
+                .czEngName(data.getCzEngName())
+                .czExplanation(data.getCzExplanation())
+                .build();
+                return uVo;
+                }
+                else{
             UpdateCateVO uVo = UpdateCateVO.builder()
             .status(false)
             .message("이름과 설명을 입력해주세요.")
@@ -220,8 +254,17 @@ public class CategoryService {
             .build();
             return uVo;
             }
+            }
         }
-    }
+            else{
+                UpdateCateVO uVo = UpdateCateVO.builder()
+                .status(false)
+                .message("pz 번호 또는 cz 번호를 입력하세요.")
+                .code(HttpStatus.BAD_REQUEST)
+                .build();
+                return uVo;
+            }
+        }
 
     // @Transactional
     // public void deleteCate(Long seq){
@@ -251,10 +294,12 @@ public class CategoryService {
     @Transactional
     public DeleteCateVO deleteCate(DeleteCateVO data, Long seq, String type) {
         if(type.equals("pz")) {
-            ParentZoneEntity pzEntity = pzRepo.findZByPzSeq(seq);
-            ZoneConnectionEntity zone = zcRepo.findAllByParent(pzEntity);
-            ChildZoneEntity child = zone.getChild();
-
+            ParentZoneEntity pzEntity = pzRepo.findByPzSeq(seq);
+            List<ZoneConnectionEntity> zone = zcRepo.findAllByParent(pzEntity);
+            List<ChildZoneEntity> child = new ArrayList<ChildZoneEntity>();
+            for(int i=0; i<zone.size(); i++){
+                child.addAll(czRepo.findAllBySeq(zone.get(i).getChild().getSeq()));  
+            }
             if(pzEntity == null){
                 DeleteCateVO dVo = DeleteCateVO.builder()
                 .status(false)
@@ -263,9 +308,9 @@ public class CategoryService {
                 .build();
                 return dVo;
                 }
-                zcRepo.deleteBySeq(zone.getSeq());
-                czRepo.deleteBySeq(child.getSeq());
-                pzRepo.deleteByPzSeq(seq);
+                zcRepo.deleteAll(zone);
+                czRepo.deleteAll(child);
+                pzRepo.delete(pzEntity);
 
                 DeleteCateVO dVo = DeleteCateVO.builder()
                 .status(true)
@@ -274,6 +319,7 @@ public class CategoryService {
                 .build();
                 return dVo;
                 }
+                
                 else if(type.equals("cz")){
                     ChildZoneEntity child = czRepo.findBySeq(seq);
                     ZoneConnectionEntity zone = zcRepo.findAllByChild(child);
