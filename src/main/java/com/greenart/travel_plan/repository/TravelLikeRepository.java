@@ -13,4 +13,5 @@ public interface TravelLikeRepository extends JpaRepository<TravelLikeEntity, Lo
     public List<TravelLikeEntity> findByMember(MemberInfoEntity miseq);
 
     public Integer countByTravelAndMember(TravelPlaceEntity travel, MemberInfoEntity member);
+    public TravelLikeEntity findByTravelAndMember(TravelPlaceEntity travel, MemberInfoEntity member);
 }

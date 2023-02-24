@@ -16,9 +16,13 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+// @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -31,7 +35,7 @@ public class TravelDetailListEntity {
     @Column(name="tdl_seq") private Long tdlSeq;
 
     @Schema (description = "상세일정seq" )
-    @JoinColumn(name="tdl_seq")
-    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="tdl_tds_seq")
+    @OneToOne(fetch = FetchType.EAGER)
     TravelDetailScheduleEntity tdsEntity;
 }

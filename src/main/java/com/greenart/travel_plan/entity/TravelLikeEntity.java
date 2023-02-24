@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +39,7 @@ public class TravelLikeEntity {
     @Schema(description = "여행지 좋아요 번호" , example = "1")
     @Column(name="tl_seq")      private Long tlSeq;
     @Schema(description = "여행지 번호" )
-    @OneToOne @JoinColumn(name = "tl_tp_seq")  TravelPlaceEntity travel;
+    @OneToOne  @JoinColumn(name = "tl_tp_seq")  TravelPlaceEntity travel;
     // @Column(name="tl_tp_seq")   private Long tlTpSeq;
     @Schema(description = "회원 번호" )
     @OneToOne @JoinColumn(name = "tl_mi_seq") MemberInfoEntity member;

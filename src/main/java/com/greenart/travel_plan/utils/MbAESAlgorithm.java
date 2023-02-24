@@ -22,6 +22,7 @@ public class MbAESAlgorithm {
     byte [] results = cipher.doFinal(Base64.decodeBase64(text));
     return new String(results,"UTF-8");
  }
+ 
 
   public static String Encrypt(String text) throws Exception{
       String key = "pwd!@#$";

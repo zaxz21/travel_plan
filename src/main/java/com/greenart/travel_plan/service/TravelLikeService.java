@@ -55,6 +55,7 @@ public class TravelLikeService {
         TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(true).message("좋아요!").code(HttpStatus.OK).build();
         return tReponse;
      }
+
      public TravelCountReponseVO getTravelCount(Long tpseq) {
        if(tpseq == null ) {
         TravelCountReponseVO travel = TravelCountReponseVO.builder().status(true).message("조회에 성공했습니다.").code(HttpStatus.OK).
@@ -70,7 +71,7 @@ public class TravelLikeService {
      }
      public List<TravelLikeMemberEntity> getTravelMember (Long miseq) {
       List<TravelLikeMemberEntity> list =  travelLikeMemberRepository.findByMiSeq(miseq);
-      
+    
       return list;
      }
 
@@ -88,8 +89,33 @@ public class TravelLikeService {
         result.add(tr);
 
        }
+       return result;
     
-         return result;
+     }
+
+     public TravelCountReponseVO updateLike(Long tpseq, Long miseq){
+      TravelPlaceEntity travel = travelPlaceRepository.findById(tpseq).orElse(null);
+      MemberInfoEntity member = memberInfoRepository.findById(miseq).orElse(null);
+      TravelLikeEntity like = travelLikeRepository.findByTravelAndMember(travel, member);
+      if(travel==null){
+          TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(false).message("여행지번호 오류입니다.").code(HttpStatus.BAD_REQUEST).build();
+          return tReponse;
+        } 
+        if(member==null){
+          TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(false).message("회원번호 오류입니다.").code(HttpStatus.BAD_REQUEST).build();
+          return tReponse;
+        } 
+        if(like == null){
+          TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(false).message("아직 좋아요를 누르지 않았습니다.").code(HttpStatus.BAD_REQUEST).build();
+          return tReponse;
+        }
+        else{
+          travelLikeRepository.delete(like);
+           TravelCountReponseVO tReponse = TravelCountReponseVO.builder().status(true).message("좋아요가 취소됐습니다.").code(HttpStatus.OK).build();
+          return tReponse;
+        }
+
+
      }
     
 }
