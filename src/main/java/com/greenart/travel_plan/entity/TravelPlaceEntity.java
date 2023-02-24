@@ -37,15 +37,17 @@ public class TravelPlaceEntity {
     @Schema(description = "여행지 주소" , example = "강원도 강릉시 경포로 365")
     @Column(name = "tp_adress") private String tpAdress;
     @Schema(description = "여행지 위도" , example = "128.8965126086")
-    @Column(name = "tp_latitude") private Double tpLatitude;
+    @Column(name = "tp_latitude") private String tpLatitude;
     @Schema(description = "여행지 경도" , example = "37.7955691591")
-    @Column(name = "tp_longitude") private Double tpLongitude;
+    @Column(name = "tp_longitude") private String tpLongitude;
     @Schema(description = "여행지 연결 테이블 번호" )
     @Column(name = "tp_zc_seq") private Long tpZcSeq;
     @Schema(description = "이미지 URI" )
     @Column(name = "tp_image") private String tpImage;
     @Schema(description = "여행지 종류",example = "1:명소/2:호텔3:식당" )
     @Column(name = "tp_type") private Integer tpType;
+    @Schema(description = "gson파싱용(테스트중)")
+    @Column(name = "tp_cate") private String tpCate;
 
     // @Schema(description = "여행일정")
     // @Column(name="ts_tp_seq")
