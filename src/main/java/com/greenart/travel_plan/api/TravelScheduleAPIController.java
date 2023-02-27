@@ -102,7 +102,7 @@ public class TravelScheduleAPIController {
     @Operation(summary = "기본일정 수정하기")
     @PostMapping("/update/{tsSeq}")
     public ResponseEntity<Object> updateBasicScheduleInfo(
-    @Parameter(description = "tsStartDate:여행시작날짜/ tsEndDate:여행 종료날짜/ tsName:일정 이름")
+    @Parameter(description = "tsSeq = 여행일정 번호")
     @PathVariable("tsSeq") Long tsSeq,
     @RequestBody UpdateBasicScheduleVO data) {
         Map<String, Object> map = new LinkedHashMap<>();
