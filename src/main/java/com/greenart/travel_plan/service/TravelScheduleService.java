@@ -13,6 +13,7 @@ import com.greenart.travel_plan.entity.TravelDetailScheduleEntity;
 import com.greenart.travel_plan.entity.TravelPlaceEntity;
 import com.greenart.travel_plan.entity.TravelScheduleEntity;
 import com.greenart.travel_plan.entity.TsTpConnectionEntity;
+import com.greenart.travel_plan.repository.BasicScheduleViewReposttory;
 import com.greenart.travel_plan.repository.MemberInfoRepository;
 import com.greenart.travel_plan.repository.TravelDetailListRepository;
 import com.greenart.travel_plan.repository.TravelDetailScheduleRepository;
@@ -26,6 +27,13 @@ import com.greenart.travel_plan.vo.schedule.DetailScheduleVO;
 
 import lombok.RequiredArgsConstructor;
 
+//    BasicScheduleListVO bvo = BasicScheduleListVO.builder().img(dlist.get(i).getTdsEntity().getTsTpEntity().getTpEntity().getTpImage()).
+//                 // place(dlist.get(i).getTdsEntity().getTsTpEntity().getTpEntity().getTpName()).
+//                 name(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsName()).
+//                 startDate(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsStartDate()).
+//                 endDate(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsEndDate()).build();
+//                 basic.add(bvo);
+
 @Service
 @RequiredArgsConstructor
 public class TravelScheduleService {
@@ -35,6 +43,7 @@ public class TravelScheduleService {
     private final TsTpConnectionRepository tsTpConnectionRepository;
     private final TravelDetailScheduleRepository travelDetailScheduleRepository;
     private final TravelDetailListRepository travelDetailListRepository;
+    private final BasicScheduleViewReposttory basicScheduleViewReposttory;
     public MemberAddReponseVO addBasicSchedule (BasicScheduleVO data ) {
         MemberInfoEntity member = memberInfoRepository.findByMiSeq(data.getMiSeq());
         TravelPlaceEntity place =  travelPlaceRepository.findById(data.getTpSeq()).orElse(null);
@@ -83,10 +92,9 @@ public class TravelScheduleService {
              return reponse;
         }
         }
-        public List<TravelDetailListEntity> getMemberSchedule(Long miseq) {
+        public List<Object> getMemberSchedule(Long miseq) {
             MemberInfoEntity member = memberInfoRepository.findById(miseq).orElse(null);
             List<TravelScheduleEntity> travel =  travelScheduleRepository.findByMemberEntity(member);
-            System.out.println(travel);
             List<TsTpConnectionEntity> connect = new ArrayList<TsTpConnectionEntity>();
             List<TravelDetailScheduleEntity> detail = new ArrayList<TravelDetailScheduleEntity>();
             List<TravelDetailListEntity> dlist = new ArrayList<TravelDetailListEntity>();
@@ -99,15 +107,12 @@ public class TravelScheduleService {
             }
             for(int i = 0; i<detail.size(); i++) {
                 dlist.addAll(travelDetailListRepository.findByTdsEntity(detail.get(i)));
-                // BasicScheduleListVO bvo = BasicScheduleListVO.builder().img(dlist.get(i).getTdsEntity().getTsTpEntity().getTpEntity().getTpImage()).
-                // place(dlist.get(i).getTdsEntity().getTsTpEntity().getTpEntity().getTpName()).
-                // name(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsName()).
-                // startDate(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsStartDate()).
-                // endDate(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsEndDate()).build();
-                // basic.add(dlist);
+                BasicScheduleListVO bvo = BasicScheduleListVO.builder().tdlseq(dlist.get(i).getTdlSeq()).
+                travel(basicScheduleViewReposttory.findByTsSeq(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsSeq())).build();
+                basic.add(bvo);
             }
-            // return basic;
-            return dlist;
+            return basic;
+            // return dlist;
 
         }
 

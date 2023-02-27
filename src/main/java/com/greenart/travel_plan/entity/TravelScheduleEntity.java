@@ -2,9 +2,6 @@ package com.greenart.travel_plan.entity;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import org.hibernate.annotations.DynamicInsert;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,11 +13,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

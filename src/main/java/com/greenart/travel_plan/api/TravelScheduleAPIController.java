@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.greenart.travel_plan.entity.TravelDetailListEntity;
 import com.greenart.travel_plan.entity.TravelScheduleEntity;
+import com.greenart.travel_plan.entity.TsTpConnectionEntity;
 import com.greenart.travel_plan.repository.TravelDetailListRepository;
+import com.greenart.travel_plan.repository.TsTpConnectionRepository;
 import com.greenart.travel_plan.service.TravelScheduleService;
 import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.TravelScheduleVO;
@@ -36,6 +38,7 @@ import java.util.List;
 public class TravelScheduleAPIController {
     private final TravelScheduleService tsService;
     private final TravelDetailListRepository travelDetailListRepository;
+    private final TsTpConnectionRepository tsTpConnectionRepository;
 
     @Operation(summary = "기본일정 추가하기")
     @PutMapping("/basic")
@@ -52,18 +55,18 @@ public class TravelScheduleAPIController {
         return new ResponseEntity<>(tsService.addDetailSchedule(data) ,tsService.addDetailSchedule(data).getCode());
     }
     @GetMapping("/list")
-    public List<TravelDetailListEntity> getList() {
-        List <TravelDetailListEntity> list = travelDetailListRepository.findAll();
+    public List<TsTpConnectionEntity> getList() {
+        List <TsTpConnectionEntity> list = tsTpConnectionRepository.findAll();
         System.out.println(list);
         return list;
     }
     
     @Operation(summary = "나의 일정 보기 /로그인 된 회원의 일정 기본정보 보기")
     @GetMapping("/member/list")
-    public List<TravelDetailListEntity> getMemberList(
+    public List<Object> getMemberList(
         @Parameter(name = "miseq",description = "로그인 한 회원의 회원 번호")    
         @RequestParam Long miseq) {
-        List <TravelDetailListEntity> list = tsService.getMemberSchedule(miseq);
+        List <Object> list = tsService.getMemberSchedule(miseq);
         // System.out.println(list);
         // return new ResponseEntity<>(tsService.getMemberSchedule(miseq) ,HttpStatus.OK);
         return list;
