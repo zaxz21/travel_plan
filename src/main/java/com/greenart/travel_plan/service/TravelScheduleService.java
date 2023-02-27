@@ -24,6 +24,7 @@ import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.schedule.BasicScheduleListVO;
 import com.greenart.travel_plan.vo.schedule.BasicScheduleVO;
 import com.greenart.travel_plan.vo.schedule.DetailScheduleVO;
+import com.greenart.travel_plan.vo.schedule.UpdateBasicScheduleVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -114,6 +115,12 @@ public class TravelScheduleService {
             return basic;
             // return dlist;
 
+        }
+        public UpdateBasicScheduleVO updateBasicSchedule(Long tsSeq, UpdateBasicScheduleVO data) {
+            TravelScheduleEntity updateSchedule = travelScheduleRepository.findById(tsSeq).orElseThrow();
+            updateSchedule.setUpdateSchedule(data);
+            travelScheduleRepository.save(updateSchedule);
+            return data;
         }
 
 

@@ -4,6 +4,8 @@ package com.greenart.travel_plan.entity;
 import java.time.LocalDate;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.greenart.travel_plan.vo.schedule.UpdateBasicScheduleVO;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,6 +49,12 @@ public class TravelScheduleEntity {
     @JoinColumn(name="ts_mi_seq")
     @ManyToOne(fetch = FetchType.LAZY)
     MemberInfoEntity memberEntity;
+
+    public void setUpdateSchedule(UpdateBasicScheduleVO data) {
+        this.tsName = data.getTsName();
+        this.tsStartDate = data.getTsStartDate();
+        this.tsEndDate = data.getTsEndDate();
+    }
 }
 
 // 나의 일정

@@ -19,5 +19,4 @@ public class BasicScheduleVO {
     private Long miSeq;
     @Schema(description = "회원이 일정에 추가하는 여행지 번호" ,example = "1")
     private Long tpSeq;
-    
 }

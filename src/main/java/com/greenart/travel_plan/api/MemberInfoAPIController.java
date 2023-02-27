@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 // , consumes=MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE
-@Tag(name = "멤버정보 관리", description = "장르정보 CRUD API")
+@Tag(name = "멤버정보 관리", description = "멤버정보 CRUD API")
 @RestController
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
