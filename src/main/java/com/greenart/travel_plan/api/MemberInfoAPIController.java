@@ -46,7 +46,7 @@ public class MemberInfoAPIController {
   public ResponseEntity<Object> memberLogin(
     @Parameter(description = "(miEmail:이메일/ miPwd:비밀번호)")
     @RequestBody MemberLoginVO data , HttpSession session) {
-    Map<String, Object> resultmap = memberInfoService.loginAdmin(data);
+    Map<String, Object> resultmap = memberInfoService.loginMember(data);
     session.setAttribute("loginUser", resultmap.get("login"));
     System.out.println(session);
   return new ResponseEntity<Object>(resultmap, (HttpStatus)resultmap.get("code"));

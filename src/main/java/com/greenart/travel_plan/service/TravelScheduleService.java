@@ -24,6 +24,7 @@ import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.schedule.BasicScheduleListVO;
 import com.greenart.travel_plan.vo.schedule.BasicScheduleVO;
 import com.greenart.travel_plan.vo.schedule.DetailScheduleVO;
+import com.greenart.travel_plan.vo.schedule.ScheduleDeleteVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -49,22 +50,24 @@ public class TravelScheduleService {
         TravelPlaceEntity place =  travelPlaceRepository.findById(data.getTpSeq()).orElse(null);
 
         if(member ==  null) {
-        MemberAddReponseVO reponse = MemberAddReponseVO.builder().message("로그인 후 이용 가능합니다.").status(false).code(HttpStatus.NOT_ACCEPTABLE).build();
-        return reponse;
-    }   else if (place == null ){
-        MemberAddReponseVO reponse = MemberAddReponseVO.builder().message("등록되지 않은 여행지 입니다.").status(false).code(HttpStatus.NOT_ACCEPTABLE).build();
-        return reponse;
-    } else{
-       TravelScheduleEntity travel = 
-       TravelScheduleEntity.builder().tsStartDate(data.getTsStartDate()).tsEndDate(data.getTsEndDate()).tsName(data.getTsName()).memberEntity(member).build();
-       travelScheduleRepository.save(travel) ;
+            MemberAddReponseVO reponse = MemberAddReponseVO.builder().message("로그인 후 이용 가능합니다.").status(false).code(HttpStatus.NOT_ACCEPTABLE).build();
+            return reponse;
+        }
+        else if (place == null ){
+            MemberAddReponseVO reponse = MemberAddReponseVO.builder().message("등록되지 않은 여행지 입니다.").status(false).code(HttpStatus.NOT_ACCEPTABLE).build();
+            return reponse;
+        }
+        else{
+            TravelScheduleEntity travel = 
+            TravelScheduleEntity.builder().tsStartDate(data.getTsStartDate()).tsEndDate(data.getTsEndDate()).tsName(data.getTsName()).memberEntity(member).build();
+            travelScheduleRepository.save(travel) ;
 
-       TsTpConnectionEntity connect = TsTpConnectionEntity.builder().tsEntity(travel).tpEntity(place).build();
-       tsTpConnectionRepository.save(connect);
+            TsTpConnectionEntity connect = TsTpConnectionEntity.builder().tsEntity(travel).tpEntity(place).build();
+            tsTpConnectionRepository.save(connect);
 
-        MemberAddReponseVO reponse = MemberAddReponseVO.builder().message("일정 추가 완료").status(true).code(HttpStatus.OK).build();
-        return reponse;
-    }
+            MemberAddReponseVO reponse = MemberAddReponseVO.builder().message("일정 추가 완료").status(true).code(HttpStatus.OK).build();
+            return reponse;
+        }
     }
 
     public MemberAddReponseVO addDetailSchedule (DetailScheduleVO data) {
@@ -92,28 +95,40 @@ public class TravelScheduleService {
              return reponse;
         }
         }
-        public List<Object> getMemberSchedule(Long miseq) {
+        public List<BasicScheduleListVO> getMemberSchedule(Long miseq) {
+            
             MemberInfoEntity member = memberInfoRepository.findById(miseq).orElse(null);
             List<TravelScheduleEntity> travel =  travelScheduleRepository.findByMemberEntity(member);
             List<TsTpConnectionEntity> connect = new ArrayList<TsTpConnectionEntity>();
-            List<TravelDetailScheduleEntity> detail = new ArrayList<TravelDetailScheduleEntity>();
-            List<TravelDetailListEntity> dlist = new ArrayList<TravelDetailListEntity>();
-            List <Object> basic = new ArrayList<Object>();
+            // List<TravelDetailScheduleEntity> detail = new ArrayList<TravelDetailScheduleEntity>();
+            // List<TravelDetailListEntity> dlist = new ArrayList<TravelDetailListEntity>();
+            List <BasicScheduleListVO> basic = new ArrayList<BasicScheduleListVO>();
             for(int i =0 ;i<travel.size();i++){
                 connect.addAll(tsTpConnectionRepository.findByTsEntity(travel.get(i)));
-            }
-            for (int i = 0; i<connect.size();i++){
-            detail.addAll(travelDetailScheduleRepository.findByTsTpEntity(connect.get(i)));
-            }
-            for(int i = 0; i<detail.size(); i++) {
-                dlist.addAll(travelDetailListRepository.findByTdsEntity(detail.get(i)));
-                BasicScheduleListVO bvo = BasicScheduleListVO.builder().tdlseq(dlist.get(i).getTdlSeq()).
-                travel(basicScheduleViewReposttory.findByTsSeq(dlist.get(i).getTdsEntity().getTsTpEntity().getTsEntity().getTsSeq())).build();
+                BasicScheduleListVO bvo = BasicScheduleListVO.builder().
+                travel(basicScheduleViewReposttory.findByMiSeq(miseq)).build();
                 basic.add(bvo);
             }
             return basic;
+            // for (int i = 0; i<connect.size();i++){
+            // detail.addAll(travelDetailScheduleRepository.findByTsTpEntity(connect.get(i)));
+            // }
+            // for(int i = 0; i<detail.size(); i++) {
+            //     dlist.addAll(travelDetailListRepository.findByTdsEntity(detail.get(i)));
+            // }
             // return dlist;
 
+        }
+        public ScheduleDeleteVO deleteSchedule(Long tsseq){
+            if (tsseq == null ) {
+                ScheduleDeleteVO delete = ScheduleDeleteVO.builder().message("없는 여행지입니다..").status(false).code(HttpStatus.NOT_ACCEPTABLE).build();
+                return delete;
+            }
+            else{
+            ScheduleDeleteVO delete = ScheduleDeleteVO.builder().message("삭제되었습니다.").status(true).code(HttpStatus.OK).build();
+            travelScheduleRepository.deleteById(tsseq);
+            return delete;
+            }
         }
 
 

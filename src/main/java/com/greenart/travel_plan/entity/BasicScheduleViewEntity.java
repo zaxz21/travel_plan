@@ -24,8 +24,8 @@ import lombok.NoArgsConstructor;
 @Immutable
 public class BasicScheduleViewEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tdl_seq") private Long tdlSeq;
-    @Column(name = "ts_seq") @JsonIgnore private Long tsSeq;
+    @Column(name = "ts_seq ") private Long tsSeq;
+    @Column(name = "mi_seq") @JsonIgnore private Long miSeq;
     @Column(name = "tp_image") private String tpImage;
     @Column(name = "cz_name") private String czName;
     @Column(name = "ts_name") private String tsName;

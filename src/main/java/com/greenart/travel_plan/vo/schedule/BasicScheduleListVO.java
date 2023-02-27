@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class BasicScheduleListVO {
     private Long tdlseq;
     // private String place;
-    private BasicScheduleViewEntity travel;
+    private List<BasicScheduleViewEntity> travel;
 
     public BasicScheduleListVO (TravelDetailListEntity data) {
         this.tdlseq = data.getTdlSeq();
