@@ -1,18 +1,16 @@
 package com.greenart.travel_plan.service;
 
 import java.util.LinkedHashMap;
-import java.util.List;
+
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.greenart.travel_plan.entity.MemberInfoEntity;
-import com.greenart.travel_plan.entity.TravelLikeEntity;
 import com.greenart.travel_plan.repository.MemberInfoRepository;
-import com.greenart.travel_plan.repository.TravelLikeRepository;
 import com.greenart.travel_plan.utils.MbAESAlgorithm;
 import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.member.MemberAddVo;
