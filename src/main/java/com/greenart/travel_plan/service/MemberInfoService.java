@@ -68,7 +68,7 @@ public class MemberInfoService {
 
         
     }
-     public Map<String, Object> loginAdmin(MemberLoginVO login) {
+     public Map<String, Object> loginMember(MemberLoginVO login) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         MemberInfoEntity entity = null;
         try{
