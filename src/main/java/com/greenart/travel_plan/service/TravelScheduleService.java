@@ -64,6 +64,7 @@ public class TravelScheduleService {
             travelScheduleRepository.save(travel) ;
 
             TsTpConnectionEntity connect = TsTpConnectionEntity.builder().tsEntity(travel).tpEntity(place).build();
+            // 
             tsTpConnectionRepository.save(connect);
 
             MemberAddReponseVO reponse = MemberAddReponseVO.builder().message("일정 추가 완료").status(true).code(HttpStatus.OK).build();
@@ -120,6 +121,8 @@ public class TravelScheduleService {
             // return dlist;
 
         }
+
+
         public UpdateBasicScheduleVO updateBasicSchedule(Long tsSeq, UpdateBasicScheduleVO data) {
             TravelScheduleEntity updateSchedule = travelScheduleRepository.findById(tsSeq).orElseThrow();
             updateSchedule.setUpdateSchedule(data);
@@ -128,7 +131,7 @@ public class TravelScheduleService {
         }
         public ScheduleDeleteVO deleteSchedule(Long tsseq){
             if (tsseq == null ) {
-                ScheduleDeleteVO delete = ScheduleDeleteVO.builder().message("없는 여행지입니다..").status(false).code(HttpStatus.NOT_ACCEPTABLE).build();
+                ScheduleDeleteVO delete = ScheduleDeleteVO.builder().message("존재하지 않는 일정입니다.").status(false).code(HttpStatus.NOT_ACCEPTABLE).build();
                 return delete;
             }
             else{
