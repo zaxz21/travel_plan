@@ -38,16 +38,20 @@ public class ImgService {
     // 이미지 업로드
     public ImgVO addLocalImage(MultipartFile file) {
         // Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-
         Path folderLocation = null;
         folderLocation = Paths.get(local_img_path);
         
         String saveFilename = "";
         String orginFileName = file.getOriginalFilename();
 
-        String[]split = orginFileName.split("\\.");
-        String firstname = split[split.length -2] + "_";
+        String[]split = orginFileName.split("\\."); 
+
+        String firstname = "";  //split[0] + "_";
         String ext = split[split.length -1];
+        for(int i=0; i<split.length; i++) {
+            if(i != split.length - 1)
+                firstname += split[i];
+        }
 
         Calendar c = Calendar.getInstance();
         saveFilename += firstname + c.getTimeInMillis() + "." + ext; 
@@ -63,7 +67,7 @@ public class ImgService {
         ImgInfoEntity ImgEntity = ImgInfoEntity.builder()
             .iiFileName(saveFilename)
             .build();
-        ImgRepo.save(ImgEntity);
+            ImgRepo.save(ImgEntity);
 
         ImgVO vo = ImgVO.builder()
             .status(true)
@@ -72,45 +76,28 @@ public class ImgService {
             .build();
         System.out.println(vo);
         return vo;
-
-        // resultMap.put("image", ImgEntity);
-        // resultMap.put("status", true);
-        // resultMap.put("message", "파일이 저장되었습니다.");
-        // resultMap.put("code", HttpStatus.OK);
-// 
-        // return resultMap;
     }
 
     // 이미지 다운로드
     public ResponseEntity<Resource> downLocalImage (String imgname, HttpServletRequest request) throws Exception {
-        //Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-            
+        
         ImgInfoEntity entity = ImgRepo.findByiiFileName(imgname);
         String searchname = entity.getIiFileName();
-
         // Path Pathsearchname = searchname;
         Path folderLocation = Paths.get(local_img_path);
-        
-        String[] split = searchname.split("\\_");
-        String firstName = split[split.length -2];
+        String[]split = searchname.split("\\."); 
+        String ext = split[split.length -1];
 
-        String[] split2 = searchname.split("\\.");
-        String ext = split2[split.length - 1];
-
-        String regiName = firstName + "." + ext;
-        // System.out.println(regiName);
-        
+        String[]split2 = searchname.split("_"); 
         
         Path targetFile = folderLocation.resolve(searchname);
         Resource r = null;
         String contentType = null;
-        
         try {
-            r = new UrlResource(targetFile.toUri());
+            r = new UrlResource (targetFile.toUri());
         } catch (Exception e) {
             e.printStackTrace(); }
-            
-            
+
         try {
             contentType = request.getServletContext().getMimeType(r.getFile().getAbsolutePath());
             if (contentType == null) { 
@@ -121,10 +108,8 @@ public class ImgService {
                 
         return ResponseEntity.ok().
         contentType(MediaType.parseMediaType(contentType)). 
-        header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(regiName, "UTF-8") + "\"").
+        header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
         body(r);
-
-
     }
     
     // 이미지 삭제

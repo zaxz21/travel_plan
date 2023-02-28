@@ -50,13 +50,12 @@ public class ImgAPIController {
         @Parameter(name = "file",description = "이미지 원본 파일")  
         @RequestPart MultipartFile file) {
         
-            
         return imgService.addLocalImage(file);
 
         //Map<String, Object> resultMap = imgService.addLocalImage(file);   
         //return new ResponseEntity<Object>(resultMap, (HttpStatus)resultMap.get("code"));
     }
-
+    // http://localhost:8888/api/images/download/local?imgname=힘호_1677122276916.png
     // 이미지 다운로드
     @Operation(summary = "이미지 다운로드 기능")
     @GetMapping("/download/local")
@@ -65,32 +64,8 @@ public class ImgAPIController {
         @RequestParam String imgname,
         @Parameter(name = "request",description = "이미지 원본 파일")
         HttpServletRequest request) throws Exception {
-        // Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-            
-        ImgInfoEntity entity = imgRepo.findByiiFileName(imgname);
-        String searchname = entity.getIiFileName();
-        // Path Pathsearchname = searchname;
-        Path folderLocation = Paths.get(local_img_path);
-        Path targetFile = folderLocation.resolve(searchname);
-        Resource r = null;
-        String contentType = null;
-        try {
-            r = new UrlResource (targetFile.toUri());
-        } catch (Exception e) {
-            e.printStackTrace(); }
-
-        try {
-            contentType = request.getServletContext().getMimeType(r.getFile().getAbsolutePath());
-            if (contentType == null) { 
-                contentType = "application/octet-stream"; 
-            }
-            } catch (Exception e) {
-                e.printStackTrace(); }
-                
-        return ResponseEntity.ok().
-        contentType(MediaType.parseMediaType(contentType)). 
-        header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename*=\"" + URLEncoder.encode(searchname, "UTF-8") + "\"").
-        body(r);
+        
+        return imgService.downLocalImage(imgname, request);
     }
 
     // 이미지 삭제
