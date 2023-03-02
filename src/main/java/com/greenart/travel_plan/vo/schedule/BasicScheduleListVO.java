@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.greenart.travel_plan.entity.BasicScheduleViewEntity;
+import com.greenart.travel_plan.entity.DetailScheduleViewEntity;
 import com.greenart.travel_plan.entity.TravelDetailListEntity;
 import com.greenart.travel_plan.entity.TsTpConnectionEntity;
 

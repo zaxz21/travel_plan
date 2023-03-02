@@ -19,6 +19,7 @@ import com.greenart.travel_plan.vo.MemberAddReponseVO;
 import com.greenart.travel_plan.vo.TravelScheduleVO;
 import com.greenart.travel_plan.vo.schedule.BasicScheduleListVO;
 import com.greenart.travel_plan.vo.schedule.BasicScheduleVO;
+import com.greenart.travel_plan.vo.schedule.DetailScheduleListVO;
 import com.greenart.travel_plan.vo.schedule.DetailScheduleVO;
 import com.greenart.travel_plan.vo.schedule.UpdateBasicScheduleVO;
 import com.greenart.travel_plan.vo.schedule.ScheduleDeleteVO;
@@ -66,14 +67,19 @@ public class TravelScheduleAPIController {
         MemberAddReponseVO service = tsService.addDetailSchedule(data);
         return new ResponseEntity<>(service ,service.getCode());
     }
+    // List <TravelDetailListEntity> list = travelDetailListRepository.findAll();
+    // System.out.println(list);
+    @Operation(summary = "나의 상세일정 보기 /로그인 된 회원의 상세일정 보기")
     @GetMapping("/list")
-    public List<TsTpConnectionEntity> getList() {
-        List <TsTpConnectionEntity> list = tsTpConnectionRepository.findAll();
-        System.out.println(list);
-        return list;
+    public DetailScheduleListVO getList(
+    @Parameter(name="tsseq" , description = "상세일정(날짜별) 보기 ")    
+    @RequestParam Long tsseq,
+    @Parameter(name="miseq" , description = "로그인한 회원의 번호")
+    @RequestParam Long miseq) {
+        return tsService.getDetailSchedule(tsseq,miseq);
     }
     
-    @Operation(summary = "나의 기본 일정 보기 /로그인 된 회원의 일정 기본정보 보기")
+    @Operation(summary = "나의 기본 일정 보기 /로그인 된 회원의 기본일정 보기")
     @GetMapping("/member/list")
     public List<BasicScheduleViewEntity> getMemberList(
         @Parameter(name = "miseq",description = "로그인 한 회원의 회원 번호")    

@@ -13,6 +13,9 @@ import com.greenart.travel_plan.vo.TravelPlaceVO;
 public interface TravelPlaceRepository extends JpaRepository <TravelPlaceEntity, Long> {
     public Page<TravelPlaceEntity> findByTpType (Integer tptype,Pageable pageable);
     public Page<TravelPlaceEntity> findByTpNameContains(String keyword, Pageable pageable);
+    public TravelPlaceEntity findByTpSeq(Long tpseq);
+    // public List<Long> findByTpSeq(Long tpseq);
     public static void save(TravelPlaceVO build) {
     }
+    // public List<TravelPlaceEntity> findByTpSeq(List<Long> tpSeq);
 }

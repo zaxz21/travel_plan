@@ -4,6 +4,7 @@ package com.greenart.travel_plan.entity;
 import java.time.LocalDate;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenart.travel_plan.vo.schedule.UpdateBasicScheduleVO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +36,7 @@ import lombok.Setter;
 public class TravelScheduleEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema (description = "여행일정 번호",example = "1" )
-    @Column(name="ts_seq") private Long tsSeq;
+    @Column(name="ts_seq")  private Long tsSeq;
 
     @Schema (description = "여행시작일", example = "2023-01-01")
     @Column(name="ts_start_date") private LocalDate tsStartDate;
@@ -47,7 +49,7 @@ public class TravelScheduleEntity {
 
     @Schema (description = "회원 seq" )
     @JoinColumn(name="ts_mi_seq")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne (fetch = FetchType.LAZY)
     MemberInfoEntity memberEntity;
 
     public void setUpdateSchedule(UpdateBasicScheduleVO data) {

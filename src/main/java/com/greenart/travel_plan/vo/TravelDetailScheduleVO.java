@@ -23,6 +23,6 @@ public class TravelDetailScheduleVO {
     public TravelDetailScheduleVO(TravelDetailScheduleEntity travelDetailScheduleEntity) {
         this.travelName = travelDetailScheduleEntity.getTsTpEntity().getTsEntity().getTsName();
         this.travelDate = travelDetailScheduleEntity.getTdsDate();
-        this.placeName = travelDetailScheduleEntity.getTsTpEntity().getTpEntity().getTpName();
+        // this.placeName = travelDetailScheduleEntity.getTsTpEntity().getTpEntity().getTpName();
     }
 }

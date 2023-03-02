@@ -1,6 +1,8 @@
 package com.greenart.travel_plan.vo.schedule;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,7 +13,7 @@ public class DetailScheduleVO {
     @Schema(description = "기본 일정 번호",example = "1") 
     private Long tsSeq;
     @Schema(description = "여행지 번호",example = "1") 
-    private Long tpSeq;
+    private List<Long> tpSeq = new ArrayList<>();
     @Schema(description = "날짜(기본 일정에 등록되있는 시작날짜와 종료 날짜 사이의 값만 입력가능)",example = "2022-01-02") 
     private LocalDate data;
 }

@@ -12,7 +12,7 @@ import com.greenart.travel_plan.vo.schedule.UpdateBasicScheduleVO;
 
 public interface TravelScheduleRepository extends JpaRepository<TravelScheduleEntity, Long> {
     // public TravelScheduleEntity findByMemberEntity(MemberInfoEntity member);
-
+    public TravelScheduleEntity findByTsSeqAndMemberEntity(Long tsseq, MemberInfoEntity member);
     public List<TravelScheduleEntity> findByMemberEntity(MemberInfoEntity member);
 
     // public void saveAll(UpdateBasicScheduleVO data);

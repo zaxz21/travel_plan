@@ -44,10 +44,8 @@ public class TravelPlaceService {
     }
      public TravelReponseVO zonePlace(Long tpzcseq){
         List<TravelLikeCountEntity> list = travelLikeCountRepository.findByTpZcSeq(tpzcseq);
-        
              TravelReponseVO response = TravelReponseVO.builder().list(list).build();
              return response;
-        
     }
     
     

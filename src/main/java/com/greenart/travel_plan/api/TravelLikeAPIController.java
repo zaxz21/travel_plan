@@ -69,11 +69,11 @@ public class TravelLikeAPIController {
     //      return new ResponseEntity<Object>(map, HttpStatus.OK);
     //   }
 
-      @GetMapping("/member")
-      public  ResponseEntity <Object> getMember() {
-        List<TravelLikeEntity> map = travelLikeRepository.findAll();
-         return new ResponseEntity<Object>(map, HttpStatus.OK);
-      }
+      // @GetMapping("/member")
+      // public  ResponseEntity <Object> getMember() {
+      //   List<TravelLikeEntity> map = travelLikeRepository.findAll();
+      //    return new ResponseEntity<Object>(map, HttpStatus.OK);
+      // }
 
        @Operation(summary = "회원 별 좋아요한 여행지 출력")
        @GetMapping("/member/like")

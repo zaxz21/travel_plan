@@ -1,6 +1,8 @@
 package com.greenart.travel_plan.vo.schedule;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,4 +21,5 @@ public class BasicScheduleVO {
     private Long miSeq;
     @Schema(description = "회원이 일정에 추가하는 여행지 번호" ,example = "1")
     private Long tpSeq;
+    // private List<Long> tpSeq = new ArrayList<>();
 }
