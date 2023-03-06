@@ -51,7 +51,7 @@ public class ZoneAPIController {
         return new ResponseEntity<>(cateService.showAllCate(data), HttpStatus.OK);
     }
 
-    @Operation(summary = "검색")
+    @Operation(summary = "지역 검색")
     @GetMapping("/search")
     public ResponseEntity<AllCateResponseVO> searchAllCate(  @Parameter(name = "keyword", description = "지역명") @RequestParam @Nullable String keyword){
         return new ResponseEntity<>(cateService.searchAllCate(keyword)  ,HttpStatus.OK);
@@ -76,7 +76,7 @@ public class ZoneAPIController {
     // 수정
     @Operation(summary = "지역 수정")
     @PatchMapping("/update/{type}/{seq}")
-    public ResponseEntity<UpdateCateVO> updateCate(UpdateCateVO data, @PathVariable String type, @Parameter(name = "seq", description = "수정할 카테고리 번호") @PathVariable Long seq) {
+    public ResponseEntity<UpdateCateVO> updateCate(UpdateCateVO data, @Parameter(name = "type", description = "상위:pz / 하위: cz") @PathVariable String type, @Parameter(name = "seq", description = "수정할 카테고리 번호") @PathVariable Long seq) {
         return new ResponseEntity<>(cateService.updateCategory(data, seq, type), HttpStatus.OK);
     }
 

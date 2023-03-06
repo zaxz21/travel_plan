@@ -28,6 +28,7 @@ public class ItemService {
     @Autowired ChildItemRepository ciRepo;
     @Autowired ItemConnectionRepository icRepo;
 
+    
     public ItemViewVO showItem() {
         ItemViewVO iVo = ItemViewVO.builder()
         .status(true)
@@ -213,6 +214,5 @@ public class ItemService {
                 .build();
                 return dVo;
         }
-
     }
 }
